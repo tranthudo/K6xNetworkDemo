@@ -2,11 +2,11 @@
 This project demonstrate connect and use network via Ethernet or SIM Module using Freescale K6x MCU 
 
 ## **Hardware**
-<p align="center"> <img src="./images/HW.png"></p>
+<p align="center"> <img src="./Images/HW.png"></p>
 - Network module sử dụng ethernet là datalink chính và một đường SIM (wireless 3G) là backup khi mất kết nối ethernet
 
 ## **Software**
-<p align="center"> <img src="./images/Stack.png"></p>
+<p align="center"> <img src="./Images/Stack.png"></p>
 - Module network giao tiếp với máy tính cấu hình (máy tính là TCP client, logger là TCP server)
 
 - Giao tiếp với FTP-server để log file dữ liệu
