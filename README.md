@@ -76,7 +76,8 @@ This project demonstrate connect and use network via Ethernet or SIM Module usin
         <code>
         enum NetStatus { 
         <p style ="margin-left:40px">
-        NET_ERR_NONE = 0, <br/>  NET_ERR_MODULE_NOT_INIT, <br/>
+        NET_ERR_NONE = 0, <br>  
+        NET_ERR_MODULE_NOT_INIT, <br>
         NET_ERR_PARAM,  <br>
         NET_ERR_SEND_FAILD, <br>
         NET_ERR_LOST_CONNECTION, <br>
@@ -160,4 +161,12 @@ This project demonstrate connect and use network via Ethernet or SIM Module usin
 
 support framework-sample: có trong SDK của hãng:
 
-[https://www.nxp.com/support/developer-resources/evaluation-and-development-boards/freedom-development-boards/mcu-boards/software-development-kit-for-kinetis-mcus:KINETIS-SDK](https://www.nxp.com/support/developer-resources/evaluation-and-development-boards/freedom-development-boards/mcu-boards/software-development-kit-for-kinetis-mcus:KINETIS-SDK)
+## Reference 
+- [KINETIS-SDK](https://www.nxp.com/support/developer-resources/evaluation-and-development-boards/freedom-development-boards/mcu-boards/software-development-kit-for-kinetis-mcus:KINETIS-SDK)
+- [LWIP Linux Port](https://github.com/mhei/lwip-contrib/tree/master/ports/unix)
+- [haohd lwip-linux](https://github.com/haohd/lwip-linux)
+- [STM32 LWIP Stack](https://www.st.com/resource/en/user_manual/dm00103685.pdf)
+- [LWIP K64F Tutorial](https://mcuoneclipse.com/2015/10/28/tutorial-lwip-with-the-freertos-and-the-freescale-frdm-k64f-board/)
+- [Kinetics SDK - KSDK1.3.0 Getting started](https://www.nxp.com/docs/en/user-guide/KSDK13GSUG.pdf)
+- [KSDK API Reference Manual](https://www.nxp.com/docs/en/reference-manual/KSDK13APIRM.pdf)
+- [MBED FRDM-K64F](https://os.mbed.com/platforms/FRDM-K64F/)
