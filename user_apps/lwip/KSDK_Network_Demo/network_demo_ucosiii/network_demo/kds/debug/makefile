@@ -12,6 +12,7 @@ RM := rm -rf
 -include ucosiii/subdir.mk
 -include startup/subdir.mk
 -include source/subdir.mk
+-include network/subdir.mk
 -include lwip/src/netif/ppp/subdir.mk
 -include lwip/src/netif/subdir.mk
 -include lwip/src/core/snmp/subdir.mk

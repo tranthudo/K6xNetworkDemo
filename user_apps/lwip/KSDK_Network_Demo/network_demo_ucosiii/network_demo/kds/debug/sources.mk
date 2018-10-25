@@ -18,6 +18,7 @@ utilities \
 ucosiii \
 startup \
 source \
+network \
 lwip/src/netif \
 lwip/src/netif/ppp \
 lwip/src/core \

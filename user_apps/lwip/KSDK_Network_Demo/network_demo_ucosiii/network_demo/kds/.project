@@ -128,17 +128,17 @@
 		<link>
 			<name>source/fsl_phy_driver.c</name>
 			<type>1</type>
-			<locationURI>copy_PARENT1/fsl_phy_driver.c</locationURI>
+			<locationURI>PARENT-2-PROJECT_LOC/fsl_phy_driver.c</locationURI>
 		</link>
 		<link>
 			<name>source/httpserver-netconn.h</name>
 			<type>1</type>
-			<locationURI>copy_PARENT1/httpserver-netconn.h</locationURI>
+			<locationURI>PARENT-2-PROJECT_LOC/httpserver-netconn.h</locationURI>
 		</link>
 		<link>
 			<name>source/main.c</name>
 			<type>1</type>
-			<locationURI>copy_PARENT1/main.c</locationURI>
+			<locationURI>PARENT-2-PROJECT_LOC/main.c</locationURI>
 		</link>
 		<link>
 			<name>startup/startup.c</name>

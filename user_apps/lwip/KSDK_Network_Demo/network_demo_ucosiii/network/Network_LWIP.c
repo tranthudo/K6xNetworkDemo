@@ -15,8 +15,6 @@ static struct netif fsl_netif0; ///< network interface
 static bool bIPAddrOK = false; ///< Check DHCP Bound to an address
 static bool bDHCP_Client_Not_Created = true;
 
-
-
 /*!
  * @brief Prints DHCP status of the interface when it has changed from last status.
  *
@@ -106,7 +104,7 @@ dhcp_client_thread(void *arg) {
 	netif_set_up(&fsl_netif0);
 
 	dhcp_start(&fsl_netif0);
-	enet_mac_packet_buffer_t *packetBuffer;
+	//enet_mac_packet_buffer_t *packetBuffer;
 #else
   IP4_ADDR(&fsl_netif0_ipaddr, 10,2,82,128);
   IP4_ADDR(&fsl_netif0_netmask, 255,255,255,0);
@@ -119,7 +117,7 @@ dhcp_client_thread(void *arg) {
 #if USE_DHCP
 		//ethernetif_input(&fsl_netif0, packetBuffer);
 		//PRINTF("*");
-		sys_check_timeouts();
+		//sys_check_timeouts();
 		print_dhcp_state(&fsl_netif0);
 #else
 		OSA_TimeDelay(1000);
