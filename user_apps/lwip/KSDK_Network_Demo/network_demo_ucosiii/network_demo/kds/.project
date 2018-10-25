@@ -36,6 +36,11 @@
 			<locationURI>virtual:/virtual</locationURI>
 		</link>
 		<link>
+			<name>network</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
 			<name>source</name>
 			<type>2</type>
 			<locationURI>virtual:/virtual</locationURI>
@@ -58,22 +63,22 @@
 		<link>
 			<name>board/board.c</name>
 			<type>1</type>
-			<locationURI>copy_PARENT/board.c</locationURI>
+			<locationURI>PARENT-2-PROJECT_LOC/board/board.c</locationURI>
 		</link>
 		<link>
 			<name>board/board.h</name>
 			<type>1</type>
-			<locationURI>copy_PARENT/board.h</locationURI>
+			<locationURI>PARENT-2-PROJECT_LOC/board/board.h</locationURI>
 		</link>
 		<link>
 			<name>board/gpio_pins.c</name>
 			<type>1</type>
-			<locationURI>copy_PARENT/gpio_pins.c</locationURI>
+			<locationURI>PARENT-2-PROJECT_LOC/board/gpio_pins.c</locationURI>
 		</link>
 		<link>
 			<name>board/gpio_pins.h</name>
 			<type>1</type>
-			<locationURI>copy_PARENT/gpio_pins.h</locationURI>
+			<locationURI>PARENT-2-PROJECT_LOC/board/gpio_pins.h</locationURI>
 		</link>
 		<link>
 			<name>board/hardware_init.c</name>
@@ -83,17 +88,42 @@
 		<link>
 			<name>board/pin_mux.c</name>
 			<type>1</type>
-			<locationURI>copy_PARENT/pin_mux.c</locationURI>
+			<locationURI>PARENT-2-PROJECT_LOC/board/pin_mux.c</locationURI>
 		</link>
 		<link>
 			<name>board/pin_mux.h</name>
 			<type>1</type>
-			<locationURI>copy_PARENT/pin_mux.h</locationURI>
+			<locationURI>PARENT-2-PROJECT_LOC/board/pin_mux.h</locationURI>
 		</link>
 		<link>
 			<name>lwip/port</name>
 			<type>2</type>
 			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>network/NetCommon.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/network/NetCommon.h</locationURI>
+		</link>
+		<link>
+			<name>network/Network.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/network/Network.c</locationURI>
+		</link>
+		<link>
+			<name>network/Network.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/network/Network.h</locationURI>
+		</link>
+		<link>
+			<name>network/Network_LWIP.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/network/Network_LWIP.c</locationURI>
+		</link>
+		<link>
+			<name>network/Network_LWIP.h</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/network/Network_LWIP.h</locationURI>
 		</link>
 		<link>
 			<name>source/fsl_phy_driver.c</name>
