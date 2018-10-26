@@ -5524,7 +5524,7 @@ OUTPUT(network_demo_ucosiii_frdmk64f.elf elf32-littlearm)
  .debug_ranges  0x00001bf8       0xe8 C:/Freescale/KSDK_1.3.0/examples/K6xNetworkDemo/user_apps/lwip/KSDK_Network_Demo/network_demo_ucosiii/network_demo/kds/../../../../../../../../lib/ksdk_ucosiii_lib/kds/K64F12/debug/libksdk_platform_ucosiii.a(fsl_mcg_hal.o)
  .debug_ranges  0x00001ce0       0x88 C:/Freescale/KSDK_1.3.0/examples/K6xNetworkDemo/user_apps/lwip/KSDK_Network_Demo/network_demo_ucosiii/network_demo/kds/../../../../../../../../lib/ksdk_ucosiii_lib/kds/K64F12/debug/libksdk_platform_ucosiii.a(fsl_mcg_hal_modes.o)
 
-.debug_line     0x00000000    0x10211
+.debug_line     0x00000000    0x10217
  .debug_line    0x00000000      0x396 ./utilities/fsl_debug_console.o
  .debug_line    0x00000396       0xd5 ./utilities/fsl_misc_utilities.o
  .debug_line    0x0000046b      0x45d ./utilities/print_scan.o
@@ -5579,25 +5579,25 @@ OUTPUT(network_demo_ucosiii_frdmk64f.elf elf32-littlearm)
  .debug_line    0x0000a753      0x1b1 ./lwip/port/lwip_fsl_irq.o
  .debug_line    0x0000a904      0x49e ./lwip/port/sys_arch.o
  .debug_line    0x0000ada2      0x467 ./board/board.o
- .debug_line    0x0000b209      0x1c0 ./board/hardware_init.o
- .debug_line    0x0000b3c9      0x3b9 ./board/pin_mux.o
- .debug_line    0x0000b782      0x62c C:/Freescale/KSDK_1.3.0/examples/K6xNetworkDemo/user_apps/lwip/KSDK_Network_Demo/network_demo_ucosiii/network_demo/kds/../../../../../../../../lib/ksdk_ucosiii_lib/kds/K64F12/debug/libksdk_platform_ucosiii.a(fsl_uart_hal.o)
- .debug_line    0x0000bdae      0x1a4 C:/Freescale/KSDK_1.3.0/examples/K6xNetworkDemo/user_apps/lwip/KSDK_Network_Demo/network_demo_ucosiii/network_demo/kds/../../../../../../../../lib/ksdk_ucosiii_lib/kds/K64F12/debug/libksdk_platform_ucosiii.a(fsl_interrupt_manager.o)
- .debug_line    0x0000bf52      0x523 C:/Freescale/KSDK_1.3.0/examples/K6xNetworkDemo/user_apps/lwip/KSDK_Network_Demo/network_demo_ucosiii/network_demo/kds/../../../../../../../../lib/ksdk_ucosiii_lib/kds/K64F12/debug/libksdk_platform_ucosiii.a(fsl_hwtimer_pit.o)
- .debug_line    0x0000c475      0x784 C:/Freescale/KSDK_1.3.0/examples/K6xNetworkDemo/user_apps/lwip/KSDK_Network_Demo/network_demo_ucosiii/network_demo/kds/../../../../../../../../lib/ksdk_ucosiii_lib/kds/K64F12/debug/libksdk_platform_ucosiii.a(fsl_enet_hal.o)
- .debug_line    0x0000cbf9      0x127 C:/Freescale/KSDK_1.3.0/examples/K6xNetworkDemo/user_apps/lwip/KSDK_Network_Demo/network_demo_ucosiii/network_demo/kds/../../../../../../../../lib/ksdk_ucosiii_lib/kds/K64F12/debug/libksdk_platform_ucosiii.a(fsl_enet_common.o)
- .debug_line    0x0000cd20      0xcab C:/Freescale/KSDK_1.3.0/examples/K6xNetworkDemo/user_apps/lwip/KSDK_Network_Demo/network_demo_ucosiii/network_demo/kds/../../../../../../../../lib/ksdk_ucosiii_lib/kds/K64F12/debug/libksdk_platform_ucosiii.a(fsl_enet_driver.o)
- .debug_line    0x0000d9cb      0x913 C:/Freescale/KSDK_1.3.0/examples/K6xNetworkDemo/user_apps/lwip/KSDK_Network_Demo/network_demo_ucosiii/network_demo/kds/../../../../../../../../lib/ksdk_ucosiii_lib/kds/K64F12/debug/libksdk_platform_ucosiii.a(fsl_clock_MK64F12.o)
- .debug_line    0x0000e2de      0x82d C:/Freescale/KSDK_1.3.0/examples/K6xNetworkDemo/user_apps/lwip/KSDK_Network_Demo/network_demo_ucosiii/network_demo/kds/../../../../../../../../lib/ksdk_ucosiii_lib/kds/K64F12/debug/libksdk_platform_ucosiii.a(fsl_clock_manager.o)
- .debug_line    0x0000eb0b      0x1b0 C:/Freescale/KSDK_1.3.0/examples/K6xNetworkDemo/user_apps/lwip/KSDK_Network_Demo/network_demo_ucosiii/network_demo/kds/../../../../../../../../lib/ksdk_ucosiii_lib/kds/K64F12/debug/libksdk_platform_ucosiii.a(fsl_clock_manager_common.o)
- .debug_line    0x0000ecbb      0x5a3 C:/Freescale/KSDK_1.3.0/examples/K6xNetworkDemo/user_apps/lwip/KSDK_Network_Demo/network_demo_ucosiii/network_demo/kds/../../../../../../../../lib/ksdk_ucosiii_lib/kds/K64F12/debug/libksdk_platform_ucosiii.a(fsl_os_abstraction_ucosiii.o)
- .debug_line    0x0000f25e      0x4dd C:/Freescale/KSDK_1.3.0/examples/K6xNetworkDemo/user_apps/lwip/KSDK_Network_Demo/network_demo_ucosiii/network_demo/kds/../../../../../../../../lib/ksdk_ucosiii_lib/kds/K64F12/debug/libksdk_platform_ucosiii.a(fsl_sim_hal_MK64F12.o)
- .debug_line    0x0000f73b      0x125 C:/Freescale/KSDK_1.3.0/examples/K6xNetworkDemo/user_apps/lwip/KSDK_Network_Demo/network_demo_ucosiii/network_demo/kds/../../../../../../../../lib/ksdk_ucosiii_lib/kds/K64F12/debug/libksdk_platform_ucosiii.a(fsl_pit_common.o)
- .debug_line    0x0000f860      0x12f C:/Freescale/KSDK_1.3.0/examples/K6xNetworkDemo/user_apps/lwip/KSDK_Network_Demo/network_demo_ucosiii/network_demo/kds/../../../../../../../../lib/ksdk_ucosiii_lib/kds/K64F12/debug/libksdk_platform_ucosiii.a(fsl_osc_hal.o)
- .debug_line    0x0000f98f      0x4a9 C:/Freescale/KSDK_1.3.0/examples/K6xNetworkDemo/user_apps/lwip/KSDK_Network_Demo/network_demo_ucosiii/network_demo/kds/../../../../../../../../lib/ksdk_ucosiii_lib/kds/K64F12/debug/libksdk_platform_ucosiii.a(fsl_mcg_hal.o)
- .debug_line    0x0000fe38      0x3d9 C:/Freescale/KSDK_1.3.0/examples/K6xNetworkDemo/user_apps/lwip/KSDK_Network_Demo/network_demo_ucosiii/network_demo/kds/../../../../../../../../lib/ksdk_ucosiii_lib/kds/K64F12/debug/libksdk_platform_ucosiii.a(fsl_mcg_hal_modes.o)
+ .debug_line    0x0000b209      0x1c6 ./board/hardware_init.o
+ .debug_line    0x0000b3cf      0x3b9 ./board/pin_mux.o
+ .debug_line    0x0000b788      0x62c C:/Freescale/KSDK_1.3.0/examples/K6xNetworkDemo/user_apps/lwip/KSDK_Network_Demo/network_demo_ucosiii/network_demo/kds/../../../../../../../../lib/ksdk_ucosiii_lib/kds/K64F12/debug/libksdk_platform_ucosiii.a(fsl_uart_hal.o)
+ .debug_line    0x0000bdb4      0x1a4 C:/Freescale/KSDK_1.3.0/examples/K6xNetworkDemo/user_apps/lwip/KSDK_Network_Demo/network_demo_ucosiii/network_demo/kds/../../../../../../../../lib/ksdk_ucosiii_lib/kds/K64F12/debug/libksdk_platform_ucosiii.a(fsl_interrupt_manager.o)
+ .debug_line    0x0000bf58      0x523 C:/Freescale/KSDK_1.3.0/examples/K6xNetworkDemo/user_apps/lwip/KSDK_Network_Demo/network_demo_ucosiii/network_demo/kds/../../../../../../../../lib/ksdk_ucosiii_lib/kds/K64F12/debug/libksdk_platform_ucosiii.a(fsl_hwtimer_pit.o)
+ .debug_line    0x0000c47b      0x784 C:/Freescale/KSDK_1.3.0/examples/K6xNetworkDemo/user_apps/lwip/KSDK_Network_Demo/network_demo_ucosiii/network_demo/kds/../../../../../../../../lib/ksdk_ucosiii_lib/kds/K64F12/debug/libksdk_platform_ucosiii.a(fsl_enet_hal.o)
+ .debug_line    0x0000cbff      0x127 C:/Freescale/KSDK_1.3.0/examples/K6xNetworkDemo/user_apps/lwip/KSDK_Network_Demo/network_demo_ucosiii/network_demo/kds/../../../../../../../../lib/ksdk_ucosiii_lib/kds/K64F12/debug/libksdk_platform_ucosiii.a(fsl_enet_common.o)
+ .debug_line    0x0000cd26      0xcab C:/Freescale/KSDK_1.3.0/examples/K6xNetworkDemo/user_apps/lwip/KSDK_Network_Demo/network_demo_ucosiii/network_demo/kds/../../../../../../../../lib/ksdk_ucosiii_lib/kds/K64F12/debug/libksdk_platform_ucosiii.a(fsl_enet_driver.o)
+ .debug_line    0x0000d9d1      0x913 C:/Freescale/KSDK_1.3.0/examples/K6xNetworkDemo/user_apps/lwip/KSDK_Network_Demo/network_demo_ucosiii/network_demo/kds/../../../../../../../../lib/ksdk_ucosiii_lib/kds/K64F12/debug/libksdk_platform_ucosiii.a(fsl_clock_MK64F12.o)
+ .debug_line    0x0000e2e4      0x82d C:/Freescale/KSDK_1.3.0/examples/K6xNetworkDemo/user_apps/lwip/KSDK_Network_Demo/network_demo_ucosiii/network_demo/kds/../../../../../../../../lib/ksdk_ucosiii_lib/kds/K64F12/debug/libksdk_platform_ucosiii.a(fsl_clock_manager.o)
+ .debug_line    0x0000eb11      0x1b0 C:/Freescale/KSDK_1.3.0/examples/K6xNetworkDemo/user_apps/lwip/KSDK_Network_Demo/network_demo_ucosiii/network_demo/kds/../../../../../../../../lib/ksdk_ucosiii_lib/kds/K64F12/debug/libksdk_platform_ucosiii.a(fsl_clock_manager_common.o)
+ .debug_line    0x0000ecc1      0x5a3 C:/Freescale/KSDK_1.3.0/examples/K6xNetworkDemo/user_apps/lwip/KSDK_Network_Demo/network_demo_ucosiii/network_demo/kds/../../../../../../../../lib/ksdk_ucosiii_lib/kds/K64F12/debug/libksdk_platform_ucosiii.a(fsl_os_abstraction_ucosiii.o)
+ .debug_line    0x0000f264      0x4dd C:/Freescale/KSDK_1.3.0/examples/K6xNetworkDemo/user_apps/lwip/KSDK_Network_Demo/network_demo_ucosiii/network_demo/kds/../../../../../../../../lib/ksdk_ucosiii_lib/kds/K64F12/debug/libksdk_platform_ucosiii.a(fsl_sim_hal_MK64F12.o)
+ .debug_line    0x0000f741      0x125 C:/Freescale/KSDK_1.3.0/examples/K6xNetworkDemo/user_apps/lwip/KSDK_Network_Demo/network_demo_ucosiii/network_demo/kds/../../../../../../../../lib/ksdk_ucosiii_lib/kds/K64F12/debug/libksdk_platform_ucosiii.a(fsl_pit_common.o)
+ .debug_line    0x0000f866      0x12f C:/Freescale/KSDK_1.3.0/examples/K6xNetworkDemo/user_apps/lwip/KSDK_Network_Demo/network_demo_ucosiii/network_demo/kds/../../../../../../../../lib/ksdk_ucosiii_lib/kds/K64F12/debug/libksdk_platform_ucosiii.a(fsl_osc_hal.o)
+ .debug_line    0x0000f995      0x4a9 C:/Freescale/KSDK_1.3.0/examples/K6xNetworkDemo/user_apps/lwip/KSDK_Network_Demo/network_demo_ucosiii/network_demo/kds/../../../../../../../../lib/ksdk_ucosiii_lib/kds/K64F12/debug/libksdk_platform_ucosiii.a(fsl_mcg_hal.o)
+ .debug_line    0x0000fe3e      0x3d9 C:/Freescale/KSDK_1.3.0/examples/K6xNetworkDemo/user_apps/lwip/KSDK_Network_Demo/network_demo_ucosiii/network_demo/kds/../../../../../../../../lib/ksdk_ucosiii_lib/kds/K64F12/debug/libksdk_platform_ucosiii.a(fsl_mcg_hal_modes.o)
 
-.debug_str      0x00000000     0xf024
+.debug_str      0x00000000     0xf02a
  .debug_str     0x00000000      0x939 ./utilities/fsl_debug_console.o
                                 0x9b8 (size before relaxing)
  .debug_str     0x00000939       0x98 ./utilities/fsl_misc_utilities.o
@@ -5700,39 +5700,39 @@ OUTPUT(network_demo_ucosiii_frdmk64f.elf elf32-littlearm)
                                 0xabf (size before relaxing)
  .debug_str     0x00008eb4      0x90f ./board/board.o
                                 0xc1c (size before relaxing)
- .debug_str     0x000097c3       0x7e ./board/hardware_init.o
-                                0x319 (size before relaxing)
- .debug_str     0x00009841      0x259 ./board/pin_mux.o
+ .debug_str     0x000097c3       0x84 ./board/hardware_init.o
+                                0x31f (size before relaxing)
+ .debug_str     0x00009847      0x259 ./board/pin_mux.o
                                 0x5c9 (size before relaxing)
- .debug_str     0x00009a9a      0x9f7 C:/Freescale/KSDK_1.3.0/examples/K6xNetworkDemo/user_apps/lwip/KSDK_Network_Demo/network_demo_ucosiii/network_demo/kds/../../../../../../../../lib/ksdk_ucosiii_lib/kds/K64F12/debug/libksdk_platform_ucosiii.a(fsl_uart_hal.o)
+ .debug_str     0x00009aa0      0x9f7 C:/Freescale/KSDK_1.3.0/examples/K6xNetworkDemo/user_apps/lwip/KSDK_Network_Demo/network_demo_ucosiii/network_demo/kds/../../../../../../../../lib/ksdk_ucosiii_lib/kds/K64F12/debug/libksdk_platform_ucosiii.a(fsl_uart_hal.o)
                                 0xea8 (size before relaxing)
- .debug_str     0x0000a491      0x5ad C:/Freescale/KSDK_1.3.0/examples/K6xNetworkDemo/user_apps/lwip/KSDK_Network_Demo/network_demo_ucosiii/network_demo/kds/../../../../../../../../lib/ksdk_ucosiii_lib/kds/K64F12/debug/libksdk_platform_ucosiii.a(fsl_interrupt_manager.o)
+ .debug_str     0x0000a497      0x5ad C:/Freescale/KSDK_1.3.0/examples/K6xNetworkDemo/user_apps/lwip/KSDK_Network_Demo/network_demo_ucosiii/network_demo/kds/../../../../../../../../lib/ksdk_ucosiii_lib/kds/K64F12/debug/libksdk_platform_ucosiii.a(fsl_interrupt_manager.o)
                                 0x7d8 (size before relaxing)
- .debug_str     0x0000aa3e      0x4d2 C:/Freescale/KSDK_1.3.0/examples/K6xNetworkDemo/user_apps/lwip/KSDK_Network_Demo/network_demo_ucosiii/network_demo/kds/../../../../../../../../lib/ksdk_ucosiii_lib/kds/K64F12/debug/libksdk_platform_ucosiii.a(fsl_hwtimer_pit.o)
+ .debug_str     0x0000aa44      0x4d2 C:/Freescale/KSDK_1.3.0/examples/K6xNetworkDemo/user_apps/lwip/KSDK_Network_Demo/network_demo_ucosiii/network_demo/kds/../../../../../../../../lib/ksdk_ucosiii_lib/kds/K64F12/debug/libksdk_platform_ucosiii.a(fsl_hwtimer_pit.o)
                                0x1146 (size before relaxing)
- .debug_str     0x0000af10      0x975 C:/Freescale/KSDK_1.3.0/examples/K6xNetworkDemo/user_apps/lwip/KSDK_Network_Demo/network_demo_ucosiii/network_demo/kds/../../../../../../../../lib/ksdk_ucosiii_lib/kds/K64F12/debug/libksdk_platform_ucosiii.a(fsl_enet_hal.o)
+ .debug_str     0x0000af16      0x975 C:/Freescale/KSDK_1.3.0/examples/K6xNetworkDemo/user_apps/lwip/KSDK_Network_Demo/network_demo_ucosiii/network_demo/kds/../../../../../../../../lib/ksdk_ucosiii_lib/kds/K64F12/debug/libksdk_platform_ucosiii.a(fsl_enet_hal.o)
                                0x2276 (size before relaxing)
- .debug_str     0x0000b885       0x7d C:/Freescale/KSDK_1.3.0/examples/K6xNetworkDemo/user_apps/lwip/KSDK_Network_Demo/network_demo_ucosiii/network_demo/kds/../../../../../../../../lib/ksdk_ucosiii_lib/kds/K64F12/debug/libksdk_platform_ucosiii.a(fsl_enet_common.o)
+ .debug_str     0x0000b88b       0x7d C:/Freescale/KSDK_1.3.0/examples/K6xNetworkDemo/user_apps/lwip/KSDK_Network_Demo/network_demo_ucosiii/network_demo/kds/../../../../../../../../lib/ksdk_ucosiii_lib/kds/K64F12/debug/libksdk_platform_ucosiii.a(fsl_enet_common.o)
                                 0xc01 (size before relaxing)
- .debug_str     0x0000b902      0xcad C:/Freescale/KSDK_1.3.0/examples/K6xNetworkDemo/user_apps/lwip/KSDK_Network_Demo/network_demo_ucosiii/network_demo/kds/../../../../../../../../lib/ksdk_ucosiii_lib/kds/K64F12/debug/libksdk_platform_ucosiii.a(fsl_enet_driver.o)
+ .debug_str     0x0000b908      0xcad C:/Freescale/KSDK_1.3.0/examples/K6xNetworkDemo/user_apps/lwip/KSDK_Network_Demo/network_demo_ucosiii/network_demo/kds/../../../../../../../../lib/ksdk_ucosiii_lib/kds/K64F12/debug/libksdk_platform_ucosiii.a(fsl_enet_driver.o)
                                0x3b22 (size before relaxing)
- .debug_str     0x0000c5af      0xd7a C:/Freescale/KSDK_1.3.0/examples/K6xNetworkDemo/user_apps/lwip/KSDK_Network_Demo/network_demo_ucosiii/network_demo/kds/../../../../../../../../lib/ksdk_ucosiii_lib/kds/K64F12/debug/libksdk_platform_ucosiii.a(fsl_clock_MK64F12.o)
+ .debug_str     0x0000c5b5      0xd7a C:/Freescale/KSDK_1.3.0/examples/K6xNetworkDemo/user_apps/lwip/KSDK_Network_Demo/network_demo_ucosiii/network_demo/kds/../../../../../../../../lib/ksdk_ucosiii_lib/kds/K64F12/debug/libksdk_platform_ucosiii.a(fsl_clock_MK64F12.o)
                                0x1956 (size before relaxing)
- .debug_str     0x0000d329      0xab9 C:/Freescale/KSDK_1.3.0/examples/K6xNetworkDemo/user_apps/lwip/KSDK_Network_Demo/network_demo_ucosiii/network_demo/kds/../../../../../../../../lib/ksdk_ucosiii_lib/kds/K64F12/debug/libksdk_platform_ucosiii.a(fsl_clock_manager.o)
+ .debug_str     0x0000d32f      0xab9 C:/Freescale/KSDK_1.3.0/examples/K6xNetworkDemo/user_apps/lwip/KSDK_Network_Demo/network_demo_ucosiii/network_demo/kds/../../../../../../../../lib/ksdk_ucosiii_lib/kds/K64F12/debug/libksdk_platform_ucosiii.a(fsl_clock_manager.o)
                                0x1cce (size before relaxing)
- .debug_str     0x0000dde2       0x61 C:/Freescale/KSDK_1.3.0/examples/K6xNetworkDemo/user_apps/lwip/KSDK_Network_Demo/network_demo_ucosiii/network_demo/kds/../../../../../../../../lib/ksdk_ucosiii_lib/kds/K64F12/debug/libksdk_platform_ucosiii.a(fsl_clock_manager_common.o)
+ .debug_str     0x0000dde8       0x61 C:/Freescale/KSDK_1.3.0/examples/K6xNetworkDemo/user_apps/lwip/KSDK_Network_Demo/network_demo_ucosiii/network_demo/kds/../../../../../../../../lib/ksdk_ucosiii_lib/kds/K64F12/debug/libksdk_platform_ucosiii.a(fsl_clock_manager_common.o)
                                 0x39d (size before relaxing)
- .debug_str     0x0000de43      0x3e3 C:/Freescale/KSDK_1.3.0/examples/K6xNetworkDemo/user_apps/lwip/KSDK_Network_Demo/network_demo_ucosiii/network_demo/kds/../../../../../../../../lib/ksdk_ucosiii_lib/kds/K64F12/debug/libksdk_platform_ucosiii.a(fsl_os_abstraction_ucosiii.o)
+ .debug_str     0x0000de49      0x3e3 C:/Freescale/KSDK_1.3.0/examples/K6xNetworkDemo/user_apps/lwip/KSDK_Network_Demo/network_demo_ucosiii/network_demo/kds/../../../../../../../../lib/ksdk_ucosiii_lib/kds/K64F12/debug/libksdk_platform_ucosiii.a(fsl_os_abstraction_ucosiii.o)
                                0x1df4 (size before relaxing)
- .debug_str     0x0000e226      0x61d C:/Freescale/KSDK_1.3.0/examples/K6xNetworkDemo/user_apps/lwip/KSDK_Network_Demo/network_demo_ucosiii/network_demo/kds/../../../../../../../../lib/ksdk_ucosiii_lib/kds/K64F12/debug/libksdk_platform_ucosiii.a(fsl_sim_hal_MK64F12.o)
+ .debug_str     0x0000e22c      0x61d C:/Freescale/KSDK_1.3.0/examples/K6xNetworkDemo/user_apps/lwip/KSDK_Network_Demo/network_demo_ucosiii/network_demo/kds/../../../../../../../../lib/ksdk_ucosiii_lib/kds/K64F12/debug/libksdk_platform_ucosiii.a(fsl_sim_hal_MK64F12.o)
                                 0x98d (size before relaxing)
- .debug_str     0x0000e843       0x42 C:/Freescale/KSDK_1.3.0/examples/K6xNetworkDemo/user_apps/lwip/KSDK_Network_Demo/network_demo_ucosiii/network_demo/kds/../../../../../../../../lib/ksdk_ucosiii_lib/kds/K64F12/debug/libksdk_platform_ucosiii.a(fsl_pit_common.o)
+ .debug_str     0x0000e849       0x42 C:/Freescale/KSDK_1.3.0/examples/K6xNetworkDemo/user_apps/lwip/KSDK_Network_Demo/network_demo_ucosiii/network_demo/kds/../../../../../../../../lib/ksdk_ucosiii_lib/kds/K64F12/debug/libksdk_platform_ucosiii.a(fsl_pit_common.o)
                                 0x771 (size before relaxing)
- .debug_str     0x0000e885       0x58 C:/Freescale/KSDK_1.3.0/examples/K6xNetworkDemo/user_apps/lwip/KSDK_Network_Demo/network_demo_ucosiii/network_demo/kds/../../../../../../../../lib/ksdk_ucosiii_lib/kds/K64F12/debug/libksdk_platform_ucosiii.a(fsl_osc_hal.o)
+ .debug_str     0x0000e88b       0x58 C:/Freescale/KSDK_1.3.0/examples/K6xNetworkDemo/user_apps/lwip/KSDK_Network_Demo/network_demo_ucosiii/network_demo/kds/../../../../../../../../lib/ksdk_ucosiii_lib/kds/K64F12/debug/libksdk_platform_ucosiii.a(fsl_osc_hal.o)
                                 0x266 (size before relaxing)
- .debug_str     0x0000e8dd      0x5e2 C:/Freescale/KSDK_1.3.0/examples/K6xNetworkDemo/user_apps/lwip/KSDK_Network_Demo/network_demo_ucosiii/network_demo/kds/../../../../../../../../lib/ksdk_ucosiii_lib/kds/K64F12/debug/libksdk_platform_ucosiii.a(fsl_mcg_hal.o)
+ .debug_str     0x0000e8e3      0x5e2 C:/Freescale/KSDK_1.3.0/examples/K6xNetworkDemo/user_apps/lwip/KSDK_Network_Demo/network_demo_ucosiii/network_demo/kds/../../../../../../../../lib/ksdk_ucosiii_lib/kds/K64F12/debug/libksdk_platform_ucosiii.a(fsl_mcg_hal.o)
                                 0xbba (size before relaxing)
- .debug_str     0x0000eebf      0x165 C:/Freescale/KSDK_1.3.0/examples/K6xNetworkDemo/user_apps/lwip/KSDK_Network_Demo/network_demo_ucosiii/network_demo/kds/../../../../../../../../lib/ksdk_ucosiii_lib/kds/K64F12/debug/libksdk_platform_ucosiii.a(fsl_mcg_hal_modes.o)
+ .debug_str     0x0000eec5      0x165 C:/Freescale/KSDK_1.3.0/examples/K6xNetworkDemo/user_apps/lwip/KSDK_Network_Demo/network_demo_ucosiii/network_demo/kds/../../../../../../../../lib/ksdk_ucosiii_lib/kds/K64F12/debug/libksdk_platform_ucosiii.a(fsl_mcg_hal_modes.o)
                                 0x915 (size before relaxing)
 
 .comment        0x00000000       0x70

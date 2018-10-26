@@ -83,7 +83,7 @@
 		<link>
 			<name>board/hardware_init.c</name>
 			<type>1</type>
-			<locationURI>copy_PARENT1/hardware_init.c</locationURI>
+			<locationURI>PARENT-2-PROJECT_LOC/hardware_init.c</locationURI>
 		</link>
 		<link>
 			<name>board/pin_mux.c</name>
