@@ -81,8 +81,11 @@ static void app_low_level_init(void)
  */
 static void example_thread(void *arg) {
 	while(1) {
-		OSA_TimeDelay(1000);
+		OSA_TimeDelay(10000);
 		PRINTF("Example Thread is running\r\n");
+		if (Network_LWIP_Is_DHCP_Bound()) {
+			Network_LWFTP_Test();
+		}
 	}
 }
 /**

@@ -119,6 +119,9 @@ dhcp_client_thread(void *arg) {
 		//PRINTF("*");
 		//sys_check_timeouts();
 		print_dhcp_state(&fsl_netif0);
+		if (Network_LWIP_Is_DHCP_Bound()) {
+			OSA_TimeDelay(60000);
+		}
 #else
 		OSA_TimeDelay(1000);
 		PRINTF("DHCP Thread \r\n");

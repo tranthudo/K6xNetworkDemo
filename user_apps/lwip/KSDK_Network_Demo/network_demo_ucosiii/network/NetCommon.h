@@ -8,11 +8,30 @@
  * @copyright Copyright (c) 2018
  *
  */
+#ifndef NET_COMMON_H
+#define NET_COMMON_H
 
 #ifndef NETMODULE_DEBUG
 #define NETMODULE_DEBUG         LWIP_DBG_ON
 #endif
 
+#define KNRM  "\x1B[0m"
+#define KRED  "\x1B[31m"
+#define KGRN  "\x1B[32m"
+#define KYEL  "\x1B[33m"
+#define KBLU  "\x1B[34m"
+#define KMAG  "\x1B[35m"
+#define KCYN  "\x1B[36m"
+#define KWHT  "\x1B[37m"
+
+#ifndef min
+#define min(a,b) (((a)<(b))?(a):(b))
+#define max(a,b) (((a)>(b))?(a):(b))
+#endif
+
+#ifndef LOG_ERROR
+#define LOG_ERROR PRINTF
+#endif
 /**
  * Network Commnucation Configuration
  **/
@@ -60,3 +79,5 @@ typedef struct sNetStt {
     NetIF NetIF;
     NetConStat NetConStat;
 } SNetStt;
+
+#endif //NET_COMMON_H

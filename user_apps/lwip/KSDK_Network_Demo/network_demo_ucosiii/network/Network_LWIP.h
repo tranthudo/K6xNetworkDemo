@@ -8,6 +8,9 @@
  * @copyright Copyright (c) 2018
  * 
  */
+#ifndef NETWORK_LWIP_H
+#define NETWORK_LWIP_H
+
 #include "lwip/opt.h"
 #if LWIP_NETCONN
 #include <stdio.h>
@@ -23,6 +26,9 @@
 #include "fsl_os_abstraction.h"
 #include "ethernetif.h"
 #include "board.h"
+#ifdef __cplusplus
+extern "C" {
+#endif
 /**
  * Init TCP IP
  */
@@ -31,5 +37,13 @@ void Network_LWIP_TCP_Init();
  * Initialize LWIP DHCP
  */
 void Network_LWIP_DHCP_Init();
+/**
+ * Check if DHCP is Bound or not
+ */
 bool Network_LWIP_Is_DHCP_Bound();
 #endif //LWIP_NETCONN
+#ifdef __cplusplus
+}
+#endif
+
+#endif// NETWORK_LWIP_H

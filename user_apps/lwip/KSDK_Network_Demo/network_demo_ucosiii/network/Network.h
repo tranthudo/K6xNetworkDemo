@@ -10,6 +10,7 @@
  */
 #include "NetCommon.h"
 #include "Network_LWIP.h"
+#include "Network_LWFTP_Test.h"
 /**
  * @brief Khoi tao module SIM + Ethernet, Enable DHCP
  * 
