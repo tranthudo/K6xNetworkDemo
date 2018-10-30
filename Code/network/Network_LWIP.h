@@ -10,7 +10,7 @@
  */
 #ifndef NETWORK_LWIP_H
 #define NETWORK_LWIP_H
-
+#define USE_DHCP 1
 #include "lwip/opt.h"
 #if LWIP_NETCONN
 #include <stdio.h>

@@ -84,22 +84,22 @@ static void example_thread(void *arg) {
 	while(1) {
 		OSA_TimeDelay(1000);
 		PRINTF("Example Thread is running\r\n");
-		if (!tested) {
-			if (Network_LWIP_Is_DHCP_Bound()) {
-				Network_LWFTP_Test();
-				tested = true;
-			}
-		} else {
-			PRINTF("#");
-		}
+//		if (!tested) {
+//			if (Network_LWIP_Is_DHCP_Bound()) {
+//				Network_LWFTP_Test();
+//				tested = true;
+//			}
+//		} else {
+//			PRINTF("#");
+//		}
 	}
 }
 /**
  * Create thread and run OSA_Start();
  */
 void threads_init() {
-	sys_thread_new("Example", example_thread, NULL, 1024, 4);
 	Net_ModuleInitHw();
+	sys_thread_new("Example", example_thread, NULL, 1024, 4);
 	OSA_Start();
 }
 

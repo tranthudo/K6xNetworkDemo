@@ -16,7 +16,7 @@
  */
 int Net_ModuleInitHw() {
 	// Init for Ethernet using LWIP
-	Network_LWIP_TCP_Init();
+	//Network_LWIP_TCP_Init();
 	Network_LWIP_DHCP_Init();
 	return 1;
 }
