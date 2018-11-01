@@ -82,16 +82,16 @@ static void app_low_level_init(void)
 static void example_thread(void *arg) {
 	static bool tested = false;
 	while(1) {
-		OSA_TimeDelay(1000);
+		OSA_TimeDelay(5000);
 		PRINTF("Example Thread is running\r\n");
-//		if (!tested) {
-//			if (Network_LWIP_Is_DHCP_Bound()) {
-//				Network_LWFTP_Test();
-//				tested = true;
-//			}
-//		} else {
-//			PRINTF("#");
-//		}
+		if (!tested) {
+			if (Network_LWIP_Is_DHCP_Bound()) {
+				Network_LWFTP_Test_Socket();
+				tested = true;
+			}
+		} else {
+			PRINTF("#");
+		}
 	}
 }
 /**
@@ -99,7 +99,7 @@ static void example_thread(void *arg) {
  */
 void threads_init() {
 	Net_ModuleInitHw();
-	sys_thread_new("Example", example_thread, NULL, 1024, 4);
+	sys_thread_new("Example", example_thread, NULL, 4096, 4);
 	OSA_Start();
 }
 

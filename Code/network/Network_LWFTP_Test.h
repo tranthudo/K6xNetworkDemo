@@ -13,3 +13,4 @@
 #include "Network_LWFTP.h"
 
 void Network_LWFTP_Test(void);
+int Network_LWFTP_Test_Socket(void);

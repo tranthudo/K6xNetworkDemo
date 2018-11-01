@@ -20,6 +20,7 @@
 #include "lwip/sys.h"
 #include "lwip/arch.h"
 #include "lwip/api.h"
+#include "lwip/sockets.h"
 #include "lwip/tcpip.h"
 #include "netif/etharp.h"
 #include "lwip/dhcp.h"

@@ -101,9 +101,9 @@ dhcp_client_thread(void *arg) {
 		//PRINTF("*");
 		//sys_check_timeouts();
 		print_dhcp_state(&fsl_netif0);
-		//		if (Network_LWIP_Is_DHCP_Bound()) {
-		//			OSA_TimeDelay(6000);
-		//		}
+		if (Network_LWIP_Is_DHCP_Bound()) {
+			OSA_TimeDelay(6000);
+		}
 		OSA_TimeDelay(1000);
 		if (netif_is_up(&fsl_netif0)) {
 			PRINTF("fsl_netif0 is up\r\n");

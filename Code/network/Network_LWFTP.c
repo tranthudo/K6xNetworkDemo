@@ -74,7 +74,7 @@ static err_t lwftp_pcb_close(struct tcp_pcb *tpcb)
   tcp_sent(tpcb, NULL);
   error = tcp_close(tpcb);
   if ( error != ERR_OK ) {
-    LWIP_DEBUGF(LWFTP_SEVERE, ("lwftp:pcb close failure, not implemented\n"));
+    LWIP_DEBUGF(LWFTP_SEVERE, ("lwftp:pcb close failure, not implemented\r\n"));
   }
   return ERR_OK;
 }
@@ -287,7 +287,7 @@ static void lwftp_control_process(lwftp_session_t *s, struct tcp_pcb *tpcb, stru
   // Try to get response number
   if (p) {
     response = strtoul(p->payload, NULL, 10);
-    LWIP_DEBUGF(LWFTP_TRACE, ("lwftp:got response %d\n",response));
+    LWIP_DEBUGF(LWFTP_TRACE, ("lwftp:got response %d\r\n",response));
   }
 
   switch (s->control_state) {
@@ -502,11 +502,11 @@ static err_t lwftp_control_recv(void *arg, struct tcp_pcb *tpcb, struct pbuf *p,
       tcp_recved(tpcb, p->tot_len);
       lwftp_control_process(s, tpcb, p);
     } else {
-      LWIP_DEBUGF(LWFTP_WARNING, ("lwftp:connection closed by remote host\n"));
+      LWIP_DEBUGF(LWFTP_WARNING, ("lwftp:connection closed by remote host\r\n"));
       lwftp_control_close(s, LWFTP_RESULT_ERR_CLOSED);
     }
   } else {
-    LWIP_DEBUGF(LWFTP_SERIOUS, ("lwftp:failed to receive (%s)\n",lwip_strerr(err)));
+    LWIP_DEBUGF(LWFTP_SERIOUS, ("lwftp:failed to receive (%s)\r\n",lwip_strerr(err)));
     lwftp_control_close(s, LWFTP_RESULT_ERR_UNKNOWN);
   }
   return err;
@@ -519,7 +519,7 @@ static err_t lwftp_control_recv(void *arg, struct tcp_pcb *tpcb, struct pbuf *p,
  */
 static err_t lwftp_control_sent(void *arg, struct tcp_pcb *tpcb, u16_t len)
 {
-  LWIP_DEBUGF(LWFTP_TRACE, ("lwftp:successfully sent %d bytes\n",len));
+  LWIP_DEBUGF(LWFTP_TRACE, ("lwftp:successfully sent %d bytes\r\n",len));
   return ERR_OK;
 }
 
@@ -534,10 +534,10 @@ static void lwftp_control_err(void *arg, err_t err)
     lwftp_session_t *s = (lwftp_session_t*)arg;
     int result;
     if( s->control_state == LWFTP_CLOSED ) {
-      LWIP_DEBUGF(LWFTP_WARNING, ("lwftp:failed to connect to server (%s)\n",lwip_strerr(err)));
+      LWIP_DEBUGF(LWFTP_WARNING, ("lwftp:failed to connect to server (%s)\r\n",lwip_strerr(err)));
       result = LWFTP_RESULT_ERR_CONNECT;
     } else {
-      LWIP_DEBUGF(LWFTP_WARNING, ("lwftp:connection closed by remote host\n"));
+      LWIP_DEBUGF(LWFTP_WARNING, ("lwftp:connection closed by remote host\r\n"));
       result = LWFTP_RESULT_ERR_CLOSED;
     }
     s->control_pcb = NULL; // No need to de-allocate PCB
@@ -556,10 +556,10 @@ static err_t lwftp_control_connected(void *arg, struct tcp_pcb *tpcb, err_t err)
   lwftp_session_t *s = (lwftp_session_t*)arg;
 
   if ( err == ERR_OK ) {
-    LWIP_DEBUGF(LWFTP_STATE, ("lwftp:connected to server\n"));
+    LWIP_DEBUGF(LWFTP_STATE, ("lwftp:connected to server\r\n"));
       s->control_state = LWFTP_CONNECTED;
   } else {
-    LWIP_DEBUGF(LWFTP_WARNING, ("lwftp:err in control_connected (%s)\n",lwip_strerr(err)));
+    LWIP_DEBUGF(LWFTP_WARNING, ("lwftp:err in control_connected (%s)\r\n",lwip_strerr(err)));
   }
   return err;
 }
