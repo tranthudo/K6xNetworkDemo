@@ -11,6 +11,8 @@ RM := rm -rf
 -include utilities/subdir.mk
 -include startup/subdir.mk
 -include src/subdir.mk
+-include sdmmc/src/subdir.mk
+-include sdmmc/port/subdir.mk
 -include rtos/uCOSIII/src/uCOS-III/Source/subdir.mk
 -include rtos/uCOSIII/src/uCOS-III/Ports/ARM-Cortex-M4/Generic/GNU/subdir.mk
 -include rtos/uCOSIII/src/uC-LIB/subdir.mk
@@ -25,6 +27,9 @@ RM := rm -rf
 -include lwip/src/core/subdir.mk
 -include lwip/src/api/subdir.mk
 -include lwip/port/subdir.mk
+-include fatfs/src/subdir.mk
+-include fatfs/subdir.mk
+-include drivers/subdir.mk
 -include board/subdir.mk
 -include subdir.mk
 -include objects.mk

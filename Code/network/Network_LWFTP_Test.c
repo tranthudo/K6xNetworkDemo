@@ -12,7 +12,7 @@
 
 #include "Network_LWFTP_Test.h"
 
-
+#if 0
 static void ftp_retr_callback(void *arg, int result)
 {
 	lwftp_session_t *s = (lwftp_session_t*)arg;
@@ -97,9 +97,10 @@ static void ftp_connect_callback(void *arg, int result)
 	}
 	// FTP session will continue with STOR and source callbacks
 }
-
+#endif
 void Network_LWFTP_Test(void)
 {
+#if 0
 	static lwftp_session_t s;   // static content for the whole FTP session
 	err_t error;
 	PRINTF("===========Start Network_LWFTP_Test================\r\n");
@@ -120,12 +121,13 @@ void Network_LWFTP_Test(void)
 		LOG_ERROR("lwftp_connect failed (%d)", error);
 	}
 	// FTP session will continue with the connection callback
+#endif
 }
 #define THINHNTPC
 
 #ifdef THINHNTPC
 #define FILENAME 	"b.zip\r\n"
-#define SERVER_IP 	"192.168.0.103"
+#define SERVER_IP 	"192.168.0.104"
 #define SERVER_PORT 	21
 #define USER_NAME "thinhnt\r\n"
 #define PASSWORD "123456a@\r\n"
@@ -156,9 +158,9 @@ int Network_LWFTP_Test_Socket(void)
 	PRINTF("Buffer Size = %d\r\n", BUFSIZ);
 
 	// Variables for the file being received
-	int	file_size,
-		file_desc;
-	char	*data;
+//	int	file_size,
+//		file_desc;
+//	char	*data;
 	char *ptr;
 
 	// Step 1: Connect to the server
@@ -368,7 +370,7 @@ int Network_LWFTP_Test_Socket(void)
 	// Recv a file
 	strcpy(request_msg, "STOR ");
 	strcat(request_msg, " test_store1.txt\r\n");
-	char cEOF = 0xFF;
+//	char cEOF = 0xFF;
 	write(socket_ctrl, request_msg, strlen(request_msg));
 	// Write data to file in server
 	len = write(socket_dat, test_str, strlen(test_str));
@@ -378,12 +380,76 @@ int Network_LWFTP_Test_Socket(void)
 	recv(socket_ctrl, reply_msg, BUFSIZ, 0);
 	PRINTF("reply_msg:  %s \r\n", reply_msg);
 
-
-
 	// Close two sections
 
 	close(socket_ctrl);
 	PRINTF("Goodbye\r\n");
 
 	return 0;
+}
+
+
+int Network_LWFTP_Test_Netconn(void)
+{
+	PRINTF("==============Network_LWFTP_Test_Netconn=============\r\n");
+	// Example of netconn client
+	struct netconn *pNetcon_ctrl = NULL;
+	struct netconn *pNetcon_data = NULL;
+	struct ip_addr server_ip;
+	struct netbuf *buf;
+	char *data;
+	char 	request_msg[BUFSIZ];
+	//char 	reply_msg[BUFSIZ];
+	u16_t len;
+	// setup server_ip
+	server_ip.addr = htonl(0xc0a80068); //192.168.0.104
+//	int rc1, rc2;
+	err_t err;
+	pNetcon_ctrl = netconn_new(NETCONN_TCP);
+	netconn_set_recvtimeout (pNetcon_ctrl, 3000);
+	if (pNetcon_ctrl == NULL) {
+		/**
+		 * No memory for new connection
+		 */
+		PRINTF("netconn_new failed\r\n");
+	}
+	err = netconn_connect(pNetcon_ctrl, &server_ip, 21);
+	if (err != ERR_OK) {
+		PRINTF("netconn_connect failed\r\n");
+	}
+	// Getting the response message from resp
+	/* receive data until the other host closes the connection */
+	while((err = netconn_recv(pNetcon_ctrl, &buf)) == ERR_OK) {
+		netbuf_data(buf, &data, &len);
+		PRINTF("netconn_recv %d bytes: \r\n%s", len, data);
+	}
+	// Send user name password
+	strcpy(request_msg, "USER ");
+	strcat(request_msg, USER_NAME);
+	PRINTF("Enter Login INformation: %s\r\n", request_msg);
+	netconn_write(pNetcon_ctrl, request_msg, strlen(request_msg), NETCONN_NOCOPY);
+	/* receive data until the other host closes the connection */
+	while((err = netconn_recv(pNetcon_ctrl, &buf)) == ERR_OK) {
+		netbuf_data(buf, &data, &len);
+		PRINTF("netconn_recv %d bytes: \r\n%s", len, data);
+	}
+	strcpy(request_msg, "PASS ");
+	strcat(request_msg, PASSWORD);
+	PRINTF("Enter Password: %s\r\n", PASSWORD);
+	netconn_write(pNetcon_ctrl, request_msg, strlen(request_msg), NETCONN_NOCOPY);
+	/* receive data until the other host closes the connection */
+	while((err = netconn_recv(pNetcon_ctrl, &buf)) == ERR_OK) {
+		netbuf_data(buf, &data, &len);
+		PRINTF("netconn_recv %d bytes: \r\n%s", len, data);
+	}
+
+
+	// Delete connection
+	err = netconn_delete(pNetcon_ctrl);
+	if (err != ERR_OK) {
+		PRINTF("netconn_disconnect failed\r\n");
+	} else {
+		PRINTF("netconn_disconnected OK\r\n");
+	}
+	return 1;
 }

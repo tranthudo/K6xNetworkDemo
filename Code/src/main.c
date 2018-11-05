@@ -86,7 +86,8 @@ static void example_thread(void *arg) {
 		PRINTF("Example Thread is running\r\n");
 		if (!tested) {
 			if (Network_LWIP_Is_DHCP_Bound()) {
-				Network_LWFTP_Test_Socket();
+				//Network_LWFTP_Test_Socket();
+				Network_LWFTP_Test_Netconn();
 				tested = true;
 			}
 		} else {

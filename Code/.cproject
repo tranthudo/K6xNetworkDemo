@@ -71,8 +71,15 @@
 							<tool command="${cross_prefix}${cross_c}${cross_suffix}" commandLinePattern="${COMMAND} ${cross_toolchain_flags} ${FLAGS} -c ${OUTPUT_FLAG} ${OUTPUT_PREFIX}${OUTPUT} ${INPUTS}" errorParsers="org.eclipse.cdt.core.GCCErrorParser;org.eclipse.cdt.core.GLDErrorParser" id="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.1397207158" name="Cross ARM C Compiler" superClass="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler">
 								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.include.paths.336878990" name="Include paths (-I)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.include.paths" useByScannerDiscovery="false" valueType="includePath">
 									<listOptionValue builtIn="false" value="../rtos/uCOSIII/src/uCOS-III/Ports/ARM-Cortex-M4/Generic/GNU"/>
+									<listOptionValue builtIn="false" value="../sdmmc"/>
+									<listOptionValue builtIn="false" value="../sdmmc/inc"/>
+									<listOptionValue builtIn="false" value="../sdmmc/port"/>
+									<listOptionValue builtIn="false" value="../sdmmc/src"/>
 									<listOptionValue builtIn="false" value="../src"/>
 									<listOptionValue builtIn="false" value="../network"/>
+									<listOptionValue builtIn="false" value="../fatfs"/>
+									<listOptionValue builtIn="false" value="../fatfs/src"/>
+									<listOptionValue builtIn="false" value="../drivers"/>
 									<listOptionValue builtIn="false" value="../board"/>
 									<listOptionValue builtIn="false" value="../utilities"/>
 									<listOptionValue builtIn="false" value="../startup"/>
@@ -164,8 +171,9 @@
 							</tool>
 						</toolChain>
 					</folderInfo>
+					<fileInfo id="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.1792027861.1705886324" name="Network_LWFTP2.h" rcbsApplicability="disable" resourcePath="network/Network_LWFTP2.h" toolsToInvoke=""/>
 					<sourceEntries>
-						<entry excluding="lib|lwip/src/core/ipv6|lwip/src/include/ipv6|platform|platform/composite/src/soundcard|platform/hal/src/irtc|platform/hal/src/slcd|platform/utilities/src/virtual_com|platform/hal/src/flexio/fsl_flexio_spi_hal.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+						<entry excluding="fatfs/src/option|network/Network_LWFTP2.h|network/Network_LWFTP2.c|lib|lwip/src/core/ipv6|lwip/src/include/ipv6|platform|platform/composite/src/soundcard|platform/hal/src/irtc|platform/hal/src/slcd|platform/utilities/src/virtual_com|platform/hal/src/flexio/fsl_flexio_spi_hal.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -354,4 +362,9 @@
 		</configuration>
 	</storageModule>
 	<storageModule moduleId="org.eclipse.cdt.make.core.buildtargets"/>
+	<storageModule moduleId="org.eclipse.cdt.internal.ui.text.commentOwnerProjectMappings">
+		<doc-comment-owner id="org.eclipse.cdt.ui.doxygen">
+			<path value=""/>
+		</doc-comment-owner>
+	</storageModule>
 </cproject>

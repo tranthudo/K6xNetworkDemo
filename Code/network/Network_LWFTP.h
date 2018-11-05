@@ -67,32 +67,19 @@ typedef enum  {
   LWFTP_CLOSING,
 } lwftp_state_t;
 
-/** LWFTP session structure */
-typedef struct {
-  // User interface
-  ip_addr_t     server_ip;
-  u16_t         server_port;
-  const char    *remote_path;
-  const char    *user;
-  const char    *pass;
-  void          *handle;
-  uint          (*data_source)(void*, const char**, uint);
-  uint          (*data_sink)(void*, const char*, uint);
-  void          (*done_fn)(void*, int);
-  uint          timeout;
-  // Internal data
-  lwftp_state_t   control_state;
-  lwftp_state_t   target_state;
-  lwftp_state_t   data_state;
-  struct tcp_pcb  *control_pcb;
-  struct tcp_pcb  *data_pcb;
-} lwftp_session_t;
-
 // LWFTP API
-err_t Network_LWFTP_Connect(lwftp_session_t *s);
-err_t Network_LWFTP_Store(lwftp_session_t *s);
-err_t Network_LWFTP_Retrieve(lwftp_session_t *s);
-void  Network_LWFTP_Close(lwftp_session_t *s);
+/**
+ * Setup LWIP thread for FTP
+ * @param ipaddr
+ * @param port number (usually 21)
+ * @param
+ */
+err_t Network_LWFTP_Setup(const char *ipaddr, int port, const char* usrname, const char* passwd);
+err_t Network_LWFTP_SendFile(const char *dirPath, const char *fileName);
+err_t Network_LWFTP_Retrieve();
+err_t Network_LWFTP_Disconnect();
+char *Netwrok_LWIP_Get_ServerIP();
+lwftp_state_t Network_LWIP_Get_State();
 
 #endif //LWIP_NETCONN
 #ifdef __cplusplus

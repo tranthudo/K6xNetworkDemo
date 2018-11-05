@@ -3,3 +3,6 @@
 /rtos/
 /src/
 /lib/
+/sdmmc/
+/drivers/
+/fatfs/
