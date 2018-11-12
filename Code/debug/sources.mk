@@ -17,8 +17,6 @@ SUBDIRS := \
 utilities \
 startup \
 src \
-sdmmc/src \
-sdmmc/port \
 rtos/uCOSIII/src/uCOS-III/Source \
 rtos/uCOSIII/src/uCOS-III/Ports/ARM-Cortex-M4/Generic/GNU \
 rtos/uCOSIII/src/uC-LIB \
@@ -33,8 +31,6 @@ lwip/src/core/snmp \
 lwip/src/core/ipv4 \
 lwip/src/api \
 lwip/port \
-fatfs/src \
 fatfs \
-drivers \
 board \
 

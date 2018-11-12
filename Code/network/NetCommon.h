@@ -11,6 +11,10 @@
 #ifndef NET_COMMON_H
 #define NET_COMMON_H
 
+#ifndef LWIP_NETCONN
+#define LWIP_NETCONN 1
+#endif
+
 #ifndef NETMODULE_DEBUG
 #define NETMODULE_DEBUG         LWIP_DBG_ON
 #endif

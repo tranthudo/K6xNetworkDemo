@@ -123,23 +123,9 @@ void Network_LWFTP_Test(void)
 	// FTP session will continue with the connection callback
 #endif
 }
-#define THINHNTPC
 
-#ifdef THINHNTPC
-#define FILENAME 	"b.zip\r\n"
-#define SERVER_IP 	"192.168.0.104"
-#define SERVER_PORT 	21
-#define USER_NAME "thinhnt\r\n"
-#define PASSWORD "123456a@\r\n"
-#define PASV "PASV\r\n"
-#else
-// Server in Local
-#define FILENAME 	"test1.txt"
-#define SERVER_IP 	"127.0.0.1"
-#define SERVER_PORT 	21
-#endif
 
-#define BUFSIZ 1024
+
 
 
 int Network_LWFTP_Test_Socket(void)
@@ -195,6 +181,7 @@ int Network_LWFTP_Test_Socket(void)
 	// Enter logging information
 	strcpy(request_msg, "USER ");
 	strcat(request_msg, USER_NAME);
+	strcat(request_msg, "\r\n");
 	PRINTF("Enter Loggin INformation: %s\r\n", request_msg);
 	write(socket_ctrl, request_msg, strlen(request_msg));
 	recv(socket_ctrl, reply_msg, BUFSIZ, 0);
@@ -202,6 +189,7 @@ int Network_LWFTP_Test_Socket(void)
 
 	strcpy(request_msg, "PASS ");
 	strcat(request_msg, PASSWORD);
+	strcat(request_msg, "\r\n");
 	PRINTF("Enter Password: %s\r\n", PASSWORD);
 	write(socket_ctrl, request_msg, strlen(request_msg));
 	memset(reply_msg,0x00,BUFSIZ);
@@ -211,6 +199,7 @@ int Network_LWFTP_Test_Socket(void)
 	PRINTF("\r\n=============TEST LIST DIRECTORY=========\r\n");
 	// Getting the PASV port
 	strcpy(request_msg, PASV);
+	strcat(request_msg, "\r\n");
 	write(socket_ctrl, request_msg, strlen(request_msg));
 	memset(reply_msg,0x00,BUFSIZ);
 	recv(socket_ctrl, reply_msg, BUFSIZ, 0);
@@ -269,6 +258,7 @@ int Network_LWFTP_Test_Socket(void)
 	PRINTF("\r\n=============TEST GET DATA=========\r\n");
 	// Getting the PASV port
 	strcpy(request_msg, PASV);
+	strcat(request_msg, "\r\n");
 	write(socket_ctrl, request_msg, strlen(request_msg));
 	memset(reply_msg,0x00,BUFSIZ);
 	recv(socket_ctrl, reply_msg, BUFSIZ, 0);
@@ -309,6 +299,7 @@ int Network_LWFTP_Test_Socket(void)
 	// Recv a file
 	strcpy(request_msg, "RETR ");
 	strcat(request_msg, FILENAME);
+	strcat(request_msg, "\r\n");
 	write(socket_ctrl, request_msg, strlen(request_msg));
 	// Recv data port data
 	memset(data_buf,0x00,BUFSIZ);
@@ -324,12 +315,11 @@ int Network_LWFTP_Test_Socket(void)
 		PRINTF("reply_msg (len = %d):  %s\r\n",resp_len, reply_msg);
 	} while (resp_len > 0);
 
-
-
 	//===================TEST STORE DATA===============
 	PRINTF("\r\n=============TEST STORE DATA=========\r\n");
 	// Getting the PASV port
 	strcpy(request_msg, PASV);
+	strcat(request_msg, "\r\n");
 	write(socket_ctrl, request_msg, strlen(request_msg));
 	memset(reply_msg,0x00,BUFSIZ);
 	recv(socket_ctrl, reply_msg, BUFSIZ, 0);
@@ -367,7 +357,7 @@ int Network_LWFTP_Test_Socket(void)
 		PRINTF("Connected  data port\r\n");
 	}
 
-	// Recv a file
+	// Store a file
 	strcpy(request_msg, "STOR ");
 	strcat(request_msg, " test_store1.txt\r\n");
 //	char cEOF = 0xFF;
@@ -379,12 +369,9 @@ int Network_LWFTP_Test_Socket(void)
 	// recv ctrl data
 	recv(socket_ctrl, reply_msg, BUFSIZ, 0);
 	PRINTF("reply_msg:  %s \r\n", reply_msg);
-
 	// Close two sections
-
 	close(socket_ctrl);
 	PRINTF("Goodbye\r\n");
-
 	return 0;
 }
 
@@ -426,6 +413,7 @@ int Network_LWFTP_Test_Netconn(void)
 	// Send user name password
 	strcpy(request_msg, "USER ");
 	strcat(request_msg, USER_NAME);
+	strcat(request_msg, "\r\n");
 	PRINTF("Enter Login INformation: %s\r\n", request_msg);
 	netconn_write(pNetcon_ctrl, request_msg, strlen(request_msg), NETCONN_NOCOPY);
 	/* receive data until the other host closes the connection */
@@ -435,6 +423,7 @@ int Network_LWFTP_Test_Netconn(void)
 	}
 	strcpy(request_msg, "PASS ");
 	strcat(request_msg, PASSWORD);
+	strcat(request_msg, "\r\n");
 	PRINTF("Enter Password: %s\r\n", PASSWORD);
 	netconn_write(pNetcon_ctrl, request_msg, strlen(request_msg), NETCONN_NOCOPY);
 	/* receive data until the other host closes the connection */
@@ -452,4 +441,33 @@ int Network_LWFTP_Test_Netconn(void)
 		PRINTF("netconn_disconnected OK\r\n");
 	}
 	return 1;
+}
+
+void Network_LWFTP_Test2(void)
+{
+	Network_LWFTP_Start(SERVER_IP, SERVER_PORT, USER_NAME, PASSWORD);
+	int i, j ,iTries = 0;
+	lwftp_result_t ret;
+	char filename[128];
+	char dir[128];
+	char path[256];
+	//#define DIR_NAME "/home/vkl/dkm"
+	for (i = 0; i < 100; i++) {
+		for (j = 0; j < 100; j++) {
+
+			//Network_LWFTP_SendFile("/home", filename);
+			memset(filename,0x00,sizeof(filename));
+			memset(dir,0x00,sizeof(dir));
+			memset(path,0x00,sizeof(path));
+			// Test use only sendfile functions
+			sprintf(filename,"testfile_%d.bin", i*100+j);
+			sprintf(dir,"/home/ftpuser1/test/thinh/%d/%d", i,j);
+			Network_LWFTP_SendFile(dir, filename);
+			if (i == j) {
+				sprintf(path,"%s/%s", dir, filename);
+				Network_LWFTP_Delete(path);
+			}
+			OSA_TimeDelay(300000);
+		}
+	}
 }

@@ -87,7 +87,8 @@ static void example_thread(void *arg) {
 		if (!tested) {
 			if (Network_LWIP_Is_DHCP_Bound()) {
 				//Network_LWFTP_Test_Socket();
-				Network_LWFTP_Test_Netconn();
+//				Network_LWFTP_Test_Netconn();
+				Network_LWFTP_Test2();
 				tested = true;
 			}
 		} else {

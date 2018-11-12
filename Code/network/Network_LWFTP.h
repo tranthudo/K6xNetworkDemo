@@ -31,7 +31,19 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-enum lwftp_results {
+
+#define LWFTP_CONST_MAX_TRIES 10
+#define LWFTP_CONST_BUF_SIZE 1024
+#define LWFTP_CONST_LINE_SIZE 256 // written chuck for each block data to send
+
+#define LWFTP_FILENAME 	"b.zip\r\n"
+#define LWFTP_SERVER_IP 	"192.168.0.104"
+#define LWFTP_SERVER_PORT 	21
+#define LWFTP_USER_NAME "thinhnt\r\n"
+#define LWFTP_PASSWORD "123456a@\r\n"
+#define LWFTP_PASV "PASV\r\n"
+
+typedef enum lwftp_results {
   LWFTP_RESULT_OK=0,
   LWFTP_RESULT_INPROGRESS,
   LWFTP_RESULT_LOGGED,
@@ -46,7 +58,7 @@ enum lwftp_results {
   LWFTP_RESULT_ERR_INTERNAL,  /** Internal network stack error */
   LWFTP_RESULT_ERR_LOCAL,     /** Local storage error */
   LWFTP_RESULT_ERR_FILENAME   /** Remote host could not find file */
-};
+} lwftp_result_t;
 
 
 /** LWFTP control connection state */
@@ -67,18 +79,47 @@ typedef enum  {
   LWFTP_CLOSING,
 } lwftp_state_t;
 
-// LWFTP API
+/**
+ * Change to directory
+ * @param dirpath directory path
+ */
+lwftp_result_t Network_LWFTP_CWD(const char* dirpath);
+/**
+ * Create directory in the server
+ * @param dirpath directory path
+ */
+lwftp_result_t Network_LWFTP_MKD(const char* dirpath);
+
 /**
  * Setup LWIP thread for FTP
  * @param ipaddr
  * @param port number (usually 21)
  * @param
  */
-err_t Network_LWFTP_Setup(const char *ipaddr, int port, const char* usrname, const char* passwd);
-err_t Network_LWFTP_SendFile(const char *dirPath, const char *fileName);
-err_t Network_LWFTP_Retrieve();
-err_t Network_LWFTP_Disconnect();
+lwftp_result_t Network_LWFTP_Start(const char *ipaddr, int port, const char* usrname, const char* passwd);
+/**
+ * Send file to server
+ * @param dirPath Directory Path in FTP Server
+ * @param fileName in sdcard
+ */
+lwftp_result_t Network_LWFTP_SendFile(const char *dirPath, const char *fileName);
+/**
+ * Delete file or folder in FTP server
+ * @param path Path to file or folder in FTP server
+ */
+lwftp_result_t Network_LWFTP_Delete(const char *path);
+/**
+ * Disconnect from FTP Server
+ */
+lwftp_result_t Network_LWFTP_Disconnect();
+/* Helper function */
+/**
+ * Get current server ip-address / domain name
+ */
 char *Netwrok_LWIP_Get_ServerIP();
+/**
+ * Get lwip state
+ */
 lwftp_state_t Network_LWIP_Get_State();
 
 #endif //LWIP_NETCONN
