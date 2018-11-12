@@ -444,10 +444,12 @@ lwftp_result_t Network_LWFTP_MKD(const char* dirpath)
 {
 	PRINTF("===================Network_LWFTP_MKD: %s==================\r\n", dirpath);
 	lwftp_result_t result = LWFTP_RESULT_ERR_FILENAME;
+	char full_path[256];
 	int resp_len = 0, response;
 	int max_receive_byte = lwftp_bufsize;
 	char** tokens;
 	bool isMKDRecursiveOK = false;
+	bool isNotOK = false;  // in case something wrong in between, to free all tokens buffer alloc dinamically
 	int i;
 	// Check for connection and reconnect in case
 	lwftp_reconnect();
@@ -470,9 +472,6 @@ lwftp_result_t Network_LWFTP_MKD(const char* dirpath)
 				if (response > 0) {
 					if (response==257) {
 						result = LWFTP_RESULT_OK;
-					} else if (response == 550) {
-						//result = LWFTP_RESULT_ERR_FILENAME;
-						result = LWFTP_RESULT_OK; // this is already created directory
 					}
 				}
 			}
@@ -480,7 +479,6 @@ lwftp_result_t Network_LWFTP_MKD(const char* dirpath)
 		} while (resp_len > 0 && resp_len < lwftp_bufsize);
 		if (result == LWFTP_RESULT_OK) {
 			result == Network_LWFTP_CWD(dirpath);
-
 			if (result == LWFTP_RESULT_OK)
 				return result;
 		}
@@ -497,8 +495,18 @@ lwftp_result_t Network_LWFTP_MKD(const char* dirpath)
 		{
 			for (i = 0; *(tokens + i); i++)
 			{
+				if (isNotOK == true) {
+					free(*(tokens + i));
+					continue;
+				}
 				PRINTF("DIR=[%s]\r\n", *(tokens + i));
-				// Store a file read from sdcard
+				// Change to directory and check if exists or not
+				result = Network_LWFTP_CWD(*(tokens + i));
+				if (result == LWFTP_RESULT_OK) {
+					free(*(tokens + i));
+					continue;
+				}
+				// If not exists try to create new directory
 				memset(request_msg, 0x00, sizeof(request_msg));
 				strcpy(request_msg, "MKD ");
 				strcat(request_msg, *(tokens + i));
@@ -516,18 +524,17 @@ lwftp_result_t Network_LWFTP_MKD(const char* dirpath)
 						if (response > 0) {
 							if (response==257) {
 								result = LWFTP_RESULT_OK;
-							} else if (response == 550) {
-								//result = LWFTP_RESULT_ERR_FILENAME;
-								result = LWFTP_RESULT_OK; // this is already created directory
 							}
 						}
 					}
 					// process message and check for response
 				} while (resp_len > 0 && resp_len < lwftp_bufsize);
-				if (result == LWFTP_RESULT_OK) {
-					Network_LWFTP_CWD(*(tokens + i));
-				}
+				result = Network_LWFTP_CWD(*(tokens + i));
 				free(*(tokens + i));
+				if (result != LWFTP_RESULT_OK) {
+					free(*(tokens + i));
+					isNotOK = true;
+				}
 			}
 			printf("\n");
 			free(tokens);

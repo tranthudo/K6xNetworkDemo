@@ -467,7 +467,7 @@ void Network_LWFTP_Test2(void)
 				sprintf(path,"%s/%s", dir, filename);
 				Network_LWFTP_Delete(path);
 			}
-			OSA_TimeDelay(300000);
+			OSA_TimeDelay(5000);
 		}
 	}
 }
