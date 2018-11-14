@@ -46,7 +46,7 @@ bool Network_LWIP_Is_DHCP_Bound();
 /**
  * Check Network state (interface up + dhcp bound) or (interface up + static address set)
  */
-bool Network_LWIP_Is_OK();
+bool Network_LWIP_Is_Up();
 #endif //LWIP_NETCONN
 #ifdef __cplusplus
 }

@@ -233,7 +233,7 @@ lwftp_result_t Network_LWFTP_Start(const char *ip, int port, const char* usrname
 	lwftp_user = usrname;
 	return LWFTP_RESULT_OK;
 	// TODO: check if have to connect or not
-	ret = lwftp_connect();
+	//ret = lwftp_connect();
 	if (ret != 0) {
 		return LWFTP_RESULT_ERR_CONNECT;
 	} else {
@@ -243,8 +243,8 @@ lwftp_result_t Network_LWFTP_Start(const char *ip, int port, const char* usrname
 
 lwftp_result_t Network_LWFTP_SendFile(const char *dirPath, const char *fileName)
 {
-	if (!PHY_Get_Initialized_LinkStatus()) {
-		PRINTF("Network_LWFTP_SendFile Failed because ethernet down \r\n");
+	if (!Network_LWIP_Is_Up()) {
+		PRINTF("Network_LWFTP_SendFile Failed because ethernet down or DHCP is not Bound \r\n");
 		return LWFTP_RESULT_ERR_CONNECT;
 	}
 	lwftp_result_t ret = LWFTP_RESULT_ERR_UNKNOWN;
@@ -400,8 +400,8 @@ lwftp_result_t Network_LWFTP_SendFile(const char *dirPath, const char *fileName)
 }
 lwftp_result_t Network_LWFTP_Delete(const char *path)
 {
-	if (!PHY_Get_Initialized_LinkStatus()) {
-		PRINTF("Network_LWFTP_Delete Failed because ethernet down \r\n");
+	if (!Network_LWIP_Is_Up()) {
+		PRINTF("Network_LWFTP_Delete Failed because ethernet down or dhcp is not bound \r\n");
 		return LWFTP_RESULT_ERR_CONNECT;
 	}
 	PRINTF("==========Network_LWFTP_Delete: %s\r\n=========", path);
@@ -467,7 +467,7 @@ lwftp_state_t Network_LWIP_Get_State()
 lwftp_result_t Network_LWFTP_MKD(const char* dirpath)
 {
 	PRINTF("===================Network_LWFTP_MKD: %s==================\r\n", dirpath);
-	if (!PHY_Get_Initialized_LinkStatus()) {
+	if (!Network_LWIP_Is_Up()) {
 		PRINTF("Network_LWFTP_MKD Failed because ethernet down \r\n");
 		return LWFTP_RESULT_ERR_CONNECT;
 	}
@@ -580,8 +580,8 @@ lwftp_result_t Network_LWFTP_MKD(const char* dirpath)
  */
 lwftp_result_t Network_LWFTP_CWD(const char* dirpath)
 {
-	if (!PHY_Get_Initialized_LinkStatus()) {
-		PRINTF("Network_LWFTP_Delete Failed because ethernet down \r\n");
+	if (!Network_LWIP_Is_Up()) {
+		PRINTF("Network_LWFTP_Delete Failed because ethernet down or dhcp is not bound \r\n");
 		return LWFTP_RESULT_ERR_CONNECT;
 	}
 	PRINTF("==========Network_LWFTP_CWD: %s\r\n=========", dirpath);

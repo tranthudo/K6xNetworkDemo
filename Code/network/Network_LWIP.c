@@ -93,7 +93,7 @@ static void print_dhcp_state(struct netif *netif)
 static void
 dhcp_client_thread(void *arg) {
 	PRINTF("DHCP CLIENT THREAD created\r\n");
-	bDHCP_Client_Not_Created == false;
+	bDHCP_Client_Not_Created = false;
 	OSA_TimeDelay(1000);
 	dhcp_start(&fsl_netif0);
 	static bool last_link_status = true;//link status default = down
@@ -192,7 +192,7 @@ bool Network_LWIP_Is_DHCP_Bound()
 	return (fsl_netif0.dhcp->state == DHCP_BOUND);
 }
 
-bool Network_LWIP_Is_OK()  {
+bool Network_LWIP_Is_Up()  {
 	if (!bDHCP_Client_Not_Created) {
 		return (Network_LWIP_Is_DHCP_Bound() && PHY_Get_Initialized_LinkStatus());
 	} else {
