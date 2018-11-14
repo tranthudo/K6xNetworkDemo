@@ -93,8 +93,11 @@ static void print_dhcp_state(struct netif *netif)
 static void
 dhcp_client_thread(void *arg) {
 	PRINTF("DHCP CLIENT THREAD created\r\n");
-	OSA_TimeDelay(3000);
+	bDHCP_Client_Not_Created == false;
+	OSA_TimeDelay(1000);
 	dhcp_start(&fsl_netif0);
+	static bool last_link_status = true;//link status default = down
+	static bool link_status = true;
 	while (1) {
 #if USE_DHCP
 		//ethernetif_input(&fsl_netif0, packetBuffer);
@@ -110,6 +113,26 @@ dhcp_client_thread(void *arg) {
 		} else {
 			PRINTF("fsl_netif0 is NOT up\r\n");
 		}
+		link_status = PHY_Get_Initialized_LinkStatus();
+		if (link_status == true && last_link_status == false) {
+			// start dhcp again
+			PRINTF("Link_status changed from DOWN --> UP, restart DHCP\r\n");
+			dhcp_start(&fsl_netif0);
+		}
+		else if (link_status == false && last_link_status ==true) {
+			// stop dhcp and restart when needed
+			PRINTF("Link_status changed from UP --> DOWN, stop DHCP\r\n");
+			dhcp_stop(&fsl_netif0);
+		}
+		else {
+			if (link_status) {
+				PRINTF("Link status is remaining UP\r\n");
+			}
+			else {
+				PRINTF("Link status's remaining DOWN\r\n");
+			}
+		}
+		last_link_status = link_status;
 #else
 		OSA_TimeDelay(1000);
 		PRINTF("DHCP Thread \r\n");
@@ -122,10 +145,18 @@ void Network_LWIP_TCP_Init() {
 
 }
 
+void static lwip_netif_changed_callback(struct netif* netif) {
+	PRINTF("\r\n=========>>>>lwip_netif_changed_callback\r\n");
+}
+
+void static lwip_netif_link_changed_callback(struct netif* netif) {
+	PRINTF("\r\n=========>>>>lwip_netif_link_changed_callback\r\n");
+}
+
 void Network_LWIP_DHCP_Init() {
 	if (bDHCP_Client_Not_Created) {
 		tcpip_init(NULL,NULL);
-		bDHCP_Client_Not_Created = false;
+		//bDHCP_Client_Not_Created = false;
 		PRINTF("[ThinhNT] Try to start DHCP\r\n");
 		ip_addr_t fsl_netif0_ipaddr, fsl_netif0_netmask, fsl_netif0_gw;
 #if USE_DHCP
@@ -135,7 +166,10 @@ void Network_LWIP_DHCP_Init() {
 		netif_add(&fsl_netif0, &fsl_netif0_ipaddr, &fsl_netif0_netmask, &fsl_netif0_gw, NULL, ethernetif_init, tcpip_input);
 		netif_set_default(&fsl_netif0);
 		//netif_set_up(&fsl_netif0);
+		/// Setup callback for DHCP
+		netif_set_status_callback(&fsl_netif0,lwip_netif_changed_callback);
 
+		netif_set_link_callback(&fsl_netif0,lwip_netif_link_changed_callback);
 
 		//enet_mac_packet_buffer_t *packetBuffer;
 #else
@@ -156,4 +190,13 @@ bool Network_LWIP_Is_DHCP_Bound()
 	if (fsl_netif0.dhcp == NULL)
 		return false;
 	return (fsl_netif0.dhcp->state == DHCP_BOUND);
+}
+
+bool Network_LWIP_Is_OK()  {
+	if (!bDHCP_Client_Not_Created) {
+		return (Network_LWIP_Is_DHCP_Bound() && PHY_Get_Initialized_LinkStatus());
+	} else {
+		// TODO: added when add static ip address
+		return false;
+	}
 }

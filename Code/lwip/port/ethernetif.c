@@ -51,6 +51,11 @@
 
 ///////////////////////////////////////////////////////////////////////////////
 // Variables
+// ThinhNT added for initialized netif check link status
+uint32_t g_devNumber;
+enet_dev_if_t * g_enetIfPtr;
+bool g_initialized = false;
+// end of thinhnt added
 ///////////////////////////////////////////////////////////////////////////////
 enet_config_rmii_t rmiiCfg = {kEnetCfgRmii, kEnetCfgSpeed100M, kEnetCfgFullDuplex, false, false};
 enet_mac_config_t g_enetMacCfg[ENET_INSTANCE_COUNT] =
@@ -400,6 +405,9 @@ low_level_init(struct netif *netif)
         {
     	    if(linkstatus == true)
     	    {
+#if 0 //thinhnt added DES 1=test, 0=default code
+        netif_set_link_up(netif);
+#endif
                 result = PHY_DRV_GetLinkSpeed(devNumber,enetIfPtr->phyAddr,&physpeed);
                 if(result == kStatus_ENET_Success)
                 {
@@ -427,8 +435,14 @@ low_level_init(struct netif *netif)
     	           }
     	         }
     	    }
+    	    else {
+#if 0 //thinhnt added DES 1=test, 0=default code
+		netif_set_link_down(netif);
+#endif
+    	    }
         }
         enetIfPtr->isInitialized = true;
+        g_initialized = true;
         PRINTF("enetIfPtr->isInitialized = true, return ENET_OK\r\n");
 #if !ENET_RECEIVE_ALL_INTERRUPT
     osa_status_t osaFlag;
@@ -702,4 +716,16 @@ ethernetif_init(struct netif *netif)
   result = low_level_init(netif);
 
   return result;
+}
+
+
+bool PHY_Get_Initialized_LinkStatus() {
+	if (!g_initialized) return false;
+	bool linkstatus;
+	uint32_t result = PHY_DRV_GetLinkStatus(g_devNumber,g_enetIfPtr->phyAddr,&linkstatus);
+	if (result == kStatus_ENET_Success) {
+		return (linkstatus == true);
+	} else {
+		return false;
+	}
 }

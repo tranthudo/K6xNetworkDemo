@@ -63,7 +63,8 @@
  * SO_RCVTIMEO processing.
  */
 #define LWIP_SO_RCVTIMEO        1 //thinhnt uncomment for getting timeout
-
+#define LWIP_NETIF_STATUS_CALLBACK 1 // thinhnt added
+#define LWIP_NETIF_LINK_CALLBACK 1 // thinhnt added
 #else
 /**
  * NO_SYS==1: Bare metal lwIP

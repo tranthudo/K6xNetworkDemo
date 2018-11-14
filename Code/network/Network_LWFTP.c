@@ -105,6 +105,12 @@ static char** str_split(char* a_str, const char a_delim)
  * @return LWFTP_RESULT_OK if connected
  */
 static lwftp_result_t lwftp_reconnect(){
+	if (!PHY_Get_Initialized_LinkStatus()) {
+		lwftp_connected = false;
+		lwftp_state = LWFTP_CLOSED;
+		PRINTF("lwftp_reconnect Failed because ethernet down \r\n");
+		return LWFTP_RESULT_ERR_CONNECT;
+	}
 	lwftp_result_t ret = LWFTP_RESULT_OK;
 	int iTries = 0;
 	while (iTries++ < 10) {
@@ -164,8 +170,10 @@ static bool lwftp_is_busy()
 static lwftp_result_t lwftp_connect()
 {
 	int ret;
-	if (socket_ctrl == NULL)
-		socket_ctrl = socket(AF_INET, SOCK_STREAM, 0);
+	if (socket_ctrl != NULL) {
+		close(socket_ctrl);
+	}
+	socket_ctrl = socket(AF_INET, SOCK_STREAM, 0);
 
 	tv.tv_sec = 3000; //dkm co gi do sai sai o day khi dung lwip 3000s ma nhu la 3s
 	tv.tv_usec = 10000;
@@ -223,6 +231,8 @@ lwftp_result_t Network_LWFTP_Start(const char *ip, int port, const char* usrname
 	lwftp_port = port;
 	lwftp_passwd = passwd;
 	lwftp_user = usrname;
+	return LWFTP_RESULT_OK;
+	// TODO: check if have to connect or not
 	ret = lwftp_connect();
 	if (ret != 0) {
 		return LWFTP_RESULT_ERR_CONNECT;
@@ -233,7 +243,12 @@ lwftp_result_t Network_LWFTP_Start(const char *ip, int port, const char* usrname
 
 lwftp_result_t Network_LWFTP_SendFile(const char *dirPath, const char *fileName)
 {
+	if (!PHY_Get_Initialized_LinkStatus()) {
+		PRINTF("Network_LWFTP_SendFile Failed because ethernet down \r\n");
+		return LWFTP_RESULT_ERR_CONNECT;
+	}
 	lwftp_result_t ret = LWFTP_RESULT_ERR_UNKNOWN;
+	lwftp_result_t result;
 	char path[256];
 	int iTries = 0;
 	unsigned int a,b,c,d,e,f;
@@ -253,9 +268,14 @@ lwftp_result_t Network_LWFTP_SendFile(const char *dirPath, const char *fileName)
 	// TODO: Step 1: Check the connection, if not connect connect and try
 	while (iTries++ < 10) {
 		// Step 1: Connect to the server if not connected
-		lwftp_reconnect();
+		result = lwftp_reconnect();
+		if (result != LWFTP_RESULT_OK)
+		{
+			OSA_TimeDelay(1000);
+			continue;
+		}
 		// Step 2: Change to directory, check if it exists?
-		lwftp_result_t result = Network_LWFTP_CWD(dirPath);
+		result = Network_LWFTP_CWD(dirPath);
 		if (result == LWFTP_RESULT_OK) {
 			PRINTF("Change to directory %s\r\n", dirPath);
 		} else {
@@ -380,6 +400,10 @@ lwftp_result_t Network_LWFTP_SendFile(const char *dirPath, const char *fileName)
 }
 lwftp_result_t Network_LWFTP_Delete(const char *path)
 {
+	if (!PHY_Get_Initialized_LinkStatus()) {
+		PRINTF("Network_LWFTP_Delete Failed because ethernet down \r\n");
+		return LWFTP_RESULT_ERR_CONNECT;
+	}
 	PRINTF("==========Network_LWFTP_Delete: %s\r\n=========", path);
 	lwftp_result_t result = LWFTP_RESULT_ERR_FILENAME;
 	int resp_len = 0, response;
@@ -443,6 +467,10 @@ lwftp_state_t Network_LWIP_Get_State()
 lwftp_result_t Network_LWFTP_MKD(const char* dirpath)
 {
 	PRINTF("===================Network_LWFTP_MKD: %s==================\r\n", dirpath);
+	if (!PHY_Get_Initialized_LinkStatus()) {
+		PRINTF("Network_LWFTP_MKD Failed because ethernet down \r\n");
+		return LWFTP_RESULT_ERR_CONNECT;
+	}
 	lwftp_result_t result = LWFTP_RESULT_ERR_FILENAME;
 	char full_path[256];
 	int resp_len = 0, response;
@@ -552,6 +580,10 @@ lwftp_result_t Network_LWFTP_MKD(const char* dirpath)
  */
 lwftp_result_t Network_LWFTP_CWD(const char* dirpath)
 {
+	if (!PHY_Get_Initialized_LinkStatus()) {
+		PRINTF("Network_LWFTP_Delete Failed because ethernet down \r\n");
+		return LWFTP_RESULT_ERR_CONNECT;
+	}
 	PRINTF("==========Network_LWFTP_CWD: %s\r\n=========", dirpath);
 	lwftp_result_t result = LWFTP_RESULT_ERR_FILENAME;
 	int resp_len = 0, response;
