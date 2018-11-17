@@ -58,6 +58,8 @@ typedef enum eNetStatus {
     NET_ERR_SEND_FAILD, 
     NET_ERR_LOST_CONNECTION, 
     NET_ERR_BUSY, 
+	NET_ERR_LWIP_SERVER,
+	NET_ERR_LWIP_FTPCLIENT,
     NET_ERR_UNKNOWN 
 } NetStatus;
 
@@ -83,5 +85,7 @@ typedef struct sNetStt {
     NetIF NetIF;
     NetConStat NetConStat;
 } SNetStt;
+
+typedef void (*ClientThread)(int client_socket_fd);
 
 #endif //NET_COMMON_H

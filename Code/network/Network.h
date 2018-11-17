@@ -10,6 +10,8 @@
  */
 #include "NetCommon.h"
 #include "Network_LWIP.h"
+#include "Network_LWFTP.h"
+#include "Network_LWTCP.h"
 #include "Network_LWFTP_Test.h"
 /**
  * @brief Khoi tao module SIM + Ethernet, Enable DHCP
@@ -24,6 +26,12 @@ int Net_ModuleInitHw();
  * @return NetStatus 
  */
 NetStatus Net_TCPServerStart(int port);
+/**
+ * Set the client callback for each client connect
+ * @param fn the soket id
+ * @return
+ */
+NetStatus Net_TCPServerSetCallback(ClientThread fn);
 
 NetStatus Net_TCPClientStart(const char* ip, int port);
 /**
@@ -53,6 +61,20 @@ NetStatus Net_FTPClientStart(const char *ip, int port, const char* usrname, cons
  * @return NetStatus 
  */
 NetStatus Net_FTPClientSendFile(const char *dirPath, const char *fileName);
+/**
+ * @brief Delete file in FTP Server
+ *
+ * @param dirPath
+ * @param fileName
+ * @return NetStatus
+ */
+NetStatus Net_FTPClientDeleteFile(const char *path);
+/**
+ *
+ * @return NET_ERR_NONE if Ethernet is up or SIMCOM is up
+ */
+bool Net_Is_Up();
+
 /**
  * @brief Send data to server 
  * 

@@ -370,6 +370,7 @@ sys_thread_t sys_thread_new(const char *name, lwip_thread_fn thread, void *arg, 
     taskHandler = (task_handler_t)OSA_MemAlloc(sizeof(OS_TCB));
     if(!taskHandler)
     {
+    	PRINTF("OSA_MemAlloc taskHandler failed\r\n");
         return NULL;
     }
 #endif
@@ -378,6 +379,7 @@ sys_thread_t sys_thread_new(const char *name, lwip_thread_fn thread, void *arg, 
     stackMem =  (task_stack_t *)OSA_MemAlloc((size_t)stacksize);
     if(!stackMem)
     {
+    	PRINTF("OSA_MemAlloc stackMem failed\r\n");
         return NULL;
     }
 #else

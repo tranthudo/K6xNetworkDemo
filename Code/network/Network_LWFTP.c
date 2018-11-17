@@ -29,7 +29,7 @@
 #define LWFTP_SEVERE  (LWFTP_DEBUG|LWIP_DBG_LEVEL_SEVERE)
 
 #define PTRNLEN(s)  s,(sizeof(s)-1)
-static char* lwftp_curdir;
+//static char* lwftp_curdir;
 static bool lwftp_connected = false;
 static char* lwftp_ip;
 static char* lwftp_user;
@@ -175,15 +175,17 @@ static lwftp_result_t lwftp_connect()
 	}
 	socket_ctrl = socket(AF_INET, SOCK_STREAM, 0);
 
+
+	if (socket_ctrl == -1)
+	{
+		perror("Could not create socket");
+		lwftp_connected = false;
+		return LWFTP_RESULT_ERR_CONNECT;
+	}
 	tv.tv_sec = 3000; //dkm co gi do sai sai o day khi dung lwip 3000s ma nhu la 3s
 	tv.tv_usec = 10000;
 	// set timeout of socket
 	setsockopt(socket_ctrl, SOL_SOCKET, SO_RCVTIMEO, (const char*)&tv, sizeof tv);
-	if (socket_ctrl == -1)
-	{
-		perror("Could not create socket");
-		return 1;
-	}
 	server_ctrl.sin_addr.s_addr = inet_addr(lwftp_ip);
 	server_ctrl.sin_family = AF_INET;
 	server_ctrl.sin_port = htons(lwftp_port);
@@ -319,7 +321,7 @@ lwftp_result_t Network_LWFTP_SendFile(const char *dirPath, const char *fileName)
 		if (socket_dat == -1)
 		{
 			perror("Could not create socket");
-			return 1;
+			return LWFTP_RESULT_ERR_INTERNAL;
 		}
 		server_dat.sin_addr.s_addr = inet_addr(lwftp_ip);
 		server_dat.sin_family = AF_INET;
@@ -408,7 +410,7 @@ lwftp_result_t Network_LWFTP_Delete(const char *path)
 	lwftp_result_t result = LWFTP_RESULT_ERR_FILENAME;
 	int resp_len = 0, response;
 	int max_receive_byte = lwftp_bufsize;
-	int i,iTries = 0;
+	int iTries = 0;
 	//lwftp_result_t ret;
 	// Check for connection and reconnect in case
 	lwftp_reconnect();
@@ -446,6 +448,7 @@ lwftp_result_t Network_LWFTP_Disconnect()
 	close(socket_ctrl);
 	socket_ctrl = NULL;
 	lwftp_connected = false;
+	return LWFTP_RESULT_OK;
 }
 
 
@@ -588,7 +591,7 @@ lwftp_result_t Network_LWFTP_CWD(const char* dirpath)
 	lwftp_result_t result = LWFTP_RESULT_ERR_FILENAME;
 	int resp_len = 0, response;
 	int max_receive_byte = lwftp_bufsize;
-	int i,iTries = 0;
+	//int iTries = 0;
 	//lwftp_result_t ret;
 	// Check for connection and reconnect in case
 	lwftp_reconnect();

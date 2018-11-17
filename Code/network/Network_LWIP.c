@@ -180,7 +180,7 @@ void Network_LWIP_DHCP_Init() {
 		netif_set_default(&fsl_netif0);
 		bIPAddrOK = true;
 #endif
-		sys_thread_new("dhcp_client", dhcp_client_thread, NULL, 1024, 4);
+		sys_thread_new("dhcp_client", dhcp_client_thread, NULL, 2048, 4);
 	}
 }
 

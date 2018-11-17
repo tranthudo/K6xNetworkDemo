@@ -10,7 +10,7 @@
  */
 
 
-#include "Network_LWFTP.h"
+#include "Network.h"
 
 #define BUFSIZ 1024
 
@@ -35,13 +35,9 @@
 #endif
 
 
-void Network_LWTCP_Echo_ClientCallback(int fd);
+void Net_LWIP_Echo_ClientCallback(int fd);
 
-/**
- * Test LWTP usins
- */
-void Network_LWFTP_Test(void);
-void Network_LWFTP_Test2(void);
+void Net_TestFTP(void);
 
-int Network_LWFTP_Test_Socket(void);
-int Network_LWFTP_Test_Netconn(void);
+void Net_TestTCPServer(void);
+

@@ -12,6 +12,7 @@
 #define NETWORK_LWFTP_H
 
 #include "NetCommon.h"
+#include "Network.h"
 #include "lwip/opt.h"
 #if LWIP_NETCONN
 #include <stdio.h>

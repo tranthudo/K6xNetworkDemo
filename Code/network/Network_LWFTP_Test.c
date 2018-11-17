@@ -471,3 +471,25 @@ void Network_LWFTP_Test2(void)
 		}
 	}
 }
+
+void Network_LWTCP_Echo_ClientCallback(int fd)
+{
+	uint32_t currentTime;// =  OSA_TimeGetMsec();
+	uint32_t lastTime =  OSA_TimeGetMsec();
+	uint8_t tmp[128];
+	int len;
+
+	while (true) {
+		len = Network_LWTCP_Receive(fd, tmp, 128);
+		if (len > 0) {
+			// Just do some Echo
+			len = Network_LWTCP_Send(fd, tmp, len);
+		}
+		currentTime = OSA_TimeGetMsec();
+		if ((currentTime - lastTime) > 5000) {
+			break;
+		} else if (len <= 0) {
+			OSA_TimeDelay(100);
+		}
+	}
+}

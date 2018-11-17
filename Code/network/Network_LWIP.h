@@ -30,22 +30,9 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-/**
- * Init TCP IP
- */
 void Network_LWIP_TCP_Init();
-/**
- * Initialize LWIP DHCP
- */
 void Network_LWIP_DHCP_Init();
-/**
- * Check if DHCP is Bound or not
- */
 bool Network_LWIP_Is_DHCP_Bound();
-
-/**
- * Check Network state (interface up + dhcp bound) or (interface up + static address set)
- */
 bool Network_LWIP_Is_Up();
 #endif //LWIP_NETCONN
 #ifdef __cplusplus

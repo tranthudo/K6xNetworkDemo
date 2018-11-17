@@ -9,6 +9,9 @@
  *
  */
 #include "Network.h"
+
+SNetStt g_Network_Status;
+
 /**
  * @brief Khoi tao module SIM + Ethernet, Enable DHCP
  *
@@ -18,6 +21,10 @@ int Net_ModuleInitHw() {
 	// Init for Ethernet using LWIP
 	//Network_LWIP_TCP_Init();
 	Network_LWIP_DHCP_Init();
+	g_Network_Status.NetConStat = NET_CON_CONNECTED;
+	g_Network_Status.NetIF = NET_IF_ETHERNET;
+	// TODO: There should be a class to manage switch connection between
+	// ETHERNET & SIMCOMMM
 	return 1;
 }
 /**
@@ -28,7 +35,34 @@ int Net_ModuleInitHw() {
  */
 NetStatus Net_TCPServerStart(int port)
 {
-
+	lwtcp_result_t ret1 = Network_LWTCPServer_Start(port);
+	if (ret1 != LWTCP_RESULT_OK)
+		return NET_ERR_LWIP_SERVER;
+	return NET_ERR_NONE;
+}
+/**
+ * Check if network is up via Ethernet / SIMCOMM
+ * @return
+ */
+bool Net_Is_Up()
+{
+	bool ret1 = Network_LWIP_Is_Up();
+	// TODO: ret2 = SIMCOMM is up
+	if (ret1)
+		return true;
+	else return false;
+}
+/**
+ * Set the client callback for each client connected to this server
+ * @param fn
+ * @return
+ */
+NetStatus Net_TCPServerSetCallback(ClientThread fn)
+{
+	lwtcp_result_t ret1 = Network_LWTCP_Set_Callback(fn);
+	if (ret1 != LWTCP_RESULT_OK)
+		return NET_ERR_LWIP_SERVER;
+	return NET_ERR_NONE;
 }
 /**
  * Start A TCP Client via current Ethernet / SIMCOM
@@ -46,7 +80,7 @@ NetStatus Net_TCPClientStart(const char* ip, int port)
  * @return SNetStt
  */
 SNetStt Net_ModuleGetStatus() {
-
+	return g_Network_Status;
 }
 /**
  * @brief Open FTP Client via Ethernet,
@@ -60,7 +94,10 @@ SNetStt Net_ModuleGetStatus() {
  * @return NetStatus
  */
 NetStatus Net_FTPClientStart(const char *ip, int port, const char* usrname, const char* passwd) {
-
+	lwtcp_result_t ret1 = Network_LWFTP_Start(ip, port, usrname, passwd);
+		if (ret1 != LWTCP_RESULT_OK)
+			return NET_ERR_LWIP_FTPCLIENT;
+	return NET_ERR_NONE;
 }
 /**
  * @brief If connected then send file.
@@ -71,7 +108,26 @@ NetStatus Net_FTPClientStart(const char *ip, int port, const char* usrname, cons
  * @return NetStatus
  */
 NetStatus Net_FTPClientSendFile(const char *dirPath, const char *fileName) {
+	lwftp_result_t ret1;
+	if (g_Network_Status.NetIF == NET_IF_ETHERNET) {
+		ret1 = Network_LWFTP_SendFile(dirPath, fileName);
+		if (ret1 == LWFTP_RESULT_OK) {
+			return NET_ERR_NONE;
+		}
+	}
+	return NET_ERR_UNKNOWN;
+}
 
+NetStatus Net_FTPClientDeleteFile(const char *path)
+{
+	lwftp_result_t ret1;
+	if (g_Network_Status.NetIF == NET_IF_ETHERNET) {
+		ret1 = Network_LWFTP_Delete(path);
+		if (ret1 == LWFTP_RESULT_OK) {
+			return NET_ERR_NONE;
+		}
+	}
+	return NET_ERR_UNKNOWN;
 }
 /**
  * @brief Send data to server

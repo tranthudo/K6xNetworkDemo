@@ -165,13 +165,17 @@
 							</tool>
 						</toolChain>
 					</folderInfo>
-					<fileInfo id="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.1792027861.1705886324" name="Network_LWFTP2.h" rcbsApplicability="disable" resourcePath="network/Network_LWFTP2.h" toolsToInvoke=""/>
+					<fileInfo id="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.1792027861.301566716" name="Network_LWFTP_Test.c" rcbsApplicability="disable" resourcePath="network/Network_LWFTP_Test.c" toolsToInvoke="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.1397207158.546900479">
+						<tool id="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.1397207158.546900479" name="Cross ARM C Compiler" superClass="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.1397207158"/>
+					</fileInfo>
+					<fileInfo id="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.1792027861.1369359653" name="Network_LWFTP_Test.h" rcbsApplicability="disable" resourcePath="network/Network_LWFTP_Test.h" toolsToInvoke=""/>
 					<sourceEntries>
-						<entry excluding="fatfs/src/option|network/Network_LWFTP2.h|network/Network_LWFTP2.c|lib|lwip/src/core/ipv6|lwip/src/include/ipv6|platform|platform/composite/src/soundcard|platform/hal/src/irtc|platform/hal/src/slcd|platform/utilities/src/virtual_com|platform/hal/src/flexio/fsl_flexio_spi_hal.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+						<entry excluding="network/Network_LWFTP_Test.c|network/Network_LWFTP_Test.h|fatfs/src/option|network/Network_LWFTP2.h|network/Network_LWFTP2.c|lib|lwip/src/core/ipv6|lwip/src/include/ipv6|platform|platform/composite/src/soundcard|platform/hal/src/irtc|platform/hal/src/slcd|platform/utilities/src/virtual_com|platform/hal/src/flexio/fsl_flexio_spi_hal.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
 			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
+			<storageModule moduleId="ilg.gnuarmeclipse.managedbuild.packs"/>
 		</cconfiguration>
 		<cconfiguration id="ilg.gnuarmeclipse.managedbuild.cross.config.elf.release.1939339834">
 			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="ilg.gnuarmeclipse.managedbuild.cross.config.elf.release.1939339834" moduleId="org.eclipse.cdt.core.settings" name="release">

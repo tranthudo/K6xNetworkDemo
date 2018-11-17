@@ -23,6 +23,7 @@
 #include "httpserver-netconn.h"
 
 #include "Network.h"
+#include "Network_Test.h"
 
 #ifndef HTTPD_DEBUG
 #define HTTPD_DEBUG         LWIP_DBG_ON
@@ -85,12 +86,18 @@ static void example_thread(void *arg) {
 		OSA_TimeDelay(5000);
 		PRINTF("Example Thread is running\r\n");
 		if (!tested) {
-			if (Network_LWIP_Is_DHCP_Bound()) {
-				//Network_LWFTP_Test_Socket();
-//				Network_LWFTP_Test_Netconn();
-				Network_LWFTP_Test2();
-				tested = true;
+			if (Net_Is_Up()) {
+				Net_TestTCPServer();
+				Net_TestFTP();
 			}
+//			if (Network_LWIP_Is_Up()) {
+//				//Test TCP server using LWIP
+//				Network_LWTCPServer_Start(2011);
+//				Network_LWTCP_Set_Callback(Network_LWTCP_Echo_ClientCallback);
+//				//Test FTP Client using LWIP
+//				Network_LWFTP_Test2();
+//				tested = true;
+//			}
 		} else {
 			PRINTF("#");
 		}
