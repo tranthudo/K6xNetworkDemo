@@ -53,6 +53,26 @@
 #define BSWAP_32(val) (uint32_t)((BSWAP_16((uint32_t)(val) & (uint32_t)0xFFFF) << 0x10) |  \
                                  (BSWAP_16((uint32_t)((val) >> 0x10))))
 
+/* A helper macro used by \ref TOSTRING.	*/
+#define _TOSTRING(x) #x
+/** Macro to convert a number to a string.	 */
+#define TOSTRING(x) _TOSTRING(x)
+#if 0
+#ifdef DEBUG
+	#define ASSERT_NONVOID(con,ret)	{if(!(con))	{PRINTF("\r\nASSERT in file " __FILE__ " at line "  TOSTRING(__LINE__) "\r\n"); return ret;}	}
+	#define ASSERT_VOID(con)        {if(!(con))	{PRINTF("\r\nASSERT in file " __FILE__ " at line "  TOSTRING(__LINE__) "\r\n"); return;	 }	}
+	#define ASSERT(con)				{if(!(con))	{PRINTF("\r\nASSERT in file " __FILE__ " at line "  TOSTRING(__LINE__) "\r\n");			 }	}
+
+	#define RS485_DEBUG_TX_EN()		{_LATB8 = 1;}
+	#define RS485_DEBUG_RX_EN()		{_LATB8 = 0;}
+
+#else
+	#define ASSERT_NONVOID(con,ret)
+	#define ASSERT_VOID(con)
+	#define ASSERT(con)
+	#define LREP(...)
+#endif
+#endif //#if 0
 
 #ifdef NDEBUG           /* required by ANSI standard */
 #define debug_assert(expression)  ((void)0)

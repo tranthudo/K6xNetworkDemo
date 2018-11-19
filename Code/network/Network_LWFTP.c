@@ -338,7 +338,7 @@ lwftp_result_t Network_LWFTP_SendFile(const char *dirPath, const char *fileName)
 		memset(request_msg, 0x00, sizeof(request_msg));
 		strcpy(request_msg, "STOR ");
 		strcat(request_msg, "./"); // concatenate with current directory path
-		strcat(request_msg, "/");
+		//strcat(request_msg, "");
 		strcat(request_msg, fileName);
 		strcat(request_msg, "\r\n");
 	//	char cEOF = 0xFF;
@@ -350,7 +350,7 @@ lwftp_result_t Network_LWFTP_SendFile(const char *dirPath, const char *fileName)
 		strcat(path, "/");
 		strcat(path, fileName);
 		PRINTF("Open file: %s and send to ftpserver\r\n", path);
-		fr = f_open(&fil, path, FA_READ);
+		fr = f_open(&fil, fileName, FA_READ);
 		btr = LWFTP_CONST_LINE_SIZE;
 		if (fr == FR_OK) {
 			do {

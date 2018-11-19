@@ -14,7 +14,7 @@
 				</extensions>
 			</storageModule>
 			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
-				<configuration artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug,org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe" cleanCommand="${cross_rm} -rf" description="" errorParsers="org.eclipse.cdt.core.GmakeErrorParser;org.eclipse.cdt.core.CWDLocator;org.eclipse.cdt.core.GCCErrorParser;org.eclipse.cdt.core.GASErrorParser;org.eclipse.cdt.core.GLDErrorParser" id="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.1792027861" name="debug" parent="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug" postannouncebuildStep="" postbuildStep="" preannouncebuildStep="" prebuildStep="">
+				<configuration artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug,org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe" cleanCommand="${cross_rm} -rf" description="" errorParsers="org.eclipse.cdt.core.GmakeErrorParser;org.eclipse.cdt.core.CWDLocator;org.eclipse.cdt.core.GCCErrorParser;org.eclipse.cdt.core.GASErrorParser;org.eclipse.cdt.core.GLDErrorParser" id="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.1792027861" name="debug" parent="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug" postannouncebuildStep="" postbuildStep="${cross_prefix}size${cross_suffix} --format=sysv ${BuildArtifactFileName}  &amp; ${cross_prefix}size${cross_suffix} --format=berkeley ${BuildArtifactFileName}" preannouncebuildStep="" prebuildStep="">
 					<folderInfo id="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.1792027861." name="/" resourcePath="">
 						<toolChain errorParsers="" id="ilg.gnuarmeclipse.managedbuild.cross.toolchain.elf.debug.439601044" name="Cross ARM GCC" superClass="ilg.gnuarmeclipse.managedbuild.cross.toolchain.elf.debug">
 							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.optimization.level.780228407" name="Optimization Level" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.optimization.level" value="ilg.gnuarmeclipse.managedbuild.cross.option.optimization.level.none" valueType="enumerated"/>
@@ -72,6 +72,8 @@
 								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.include.paths.336878990" name="Include paths (-I)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.include.paths" useByScannerDiscovery="false" valueType="includePath">
 									<listOptionValue builtIn="false" value="../rtos/uCOSIII/src/uCOS-III/Ports/ARM-Cortex-M4/Generic/GNU"/>
 									<listOptionValue builtIn="false" value="../fatfs"/>
+									<listOptionValue builtIn="false" value="../fatfs/fsl_sd_disk"/>
+									<listOptionValue builtIn="false" value="../platform/composite/inc"/>
 									<listOptionValue builtIn="false" value="../src"/>
 									<listOptionValue builtIn="false" value="../network"/>
 									<listOptionValue builtIn="false" value="../board"/>
@@ -86,6 +88,7 @@
 									<listOptionValue builtIn="false" value="../platform/hal/inc"/>
 									<listOptionValue builtIn="false" value="../platform/drivers/inc"/>
 									<listOptionValue builtIn="false" value="../platform/system/inc"/>
+									<listOptionValue builtIn="false" value="../platform/composite/inc"/>
 									<listOptionValue builtIn="false" value="../lwip"/>
 									<listOptionValue builtIn="false" value="../lwip/port"/>
 									<listOptionValue builtIn="false" value="../lwip/port/arch"/>
@@ -140,7 +143,9 @@
 								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.c.linker.cref.8631906512" name="Cross reference (-Xlinker --cref)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.c.linker.cref" value="false" valueType="boolean"/>
 								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.c.linker.printgcsections.851735791" name="Print removed sections (-Xlinker --print-gc-sections)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.c.linker.printgcsections" value="false" valueType="boolean"/>
 								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.c.linker.strip.8099478634" name="Omit all symbol information (-s)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.c.linker.strip" value="false" valueType="boolean"/>
-								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.c.linker.other.2628143527" name="Other linker flags" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.c.linker.other" value="-Xlinker -z  -Xlinker muldefs   --specs=nano.specs          -Wall  -fno-common  -ffunction-sections  -fdata-sections  -ffreestanding  -fno-builtin  -mapcs  -Xlinker -static  -Xlinker --defsym=__stack_size__=0x2000  -Xlinker --defsym=__heap_size__=0x8000 " valueType="string"/>
+								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.c.linker.other.2628143527" name="Other linker flags" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.c.linker.other" value="-Xlinker -z  -Xlinker muldefs   --specs=nano.specs          -Wall  -fno-common  -ffunction-sections  -fdata-sections  -ffreestanding  -fno-builtin  -mapcs  -Xlinker -static  -Xlinker --defsym=__stack_size__=0x4000  -Xlinker --defsym=__heap_size__=0x10000 " valueType="string"/>
+								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.c.linker.printmap.1305579797" name="Print link map (-Xlinker --print-map)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.c.linker.printmap" value="false" valueType="boolean"/>
+								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.c.linker.verbose.1614789859" name="Verbose (-v)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.c.linker.verbose" value="true" valueType="boolean"/>
 								<inputType id="ilg.gnuarmeclipse.managedbuild.cross.tool.c.linker.input.1168552163" superClass="ilg.gnuarmeclipse.managedbuild.cross.tool.c.linker.input">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
 									<additionalInput kind="additionalinput" paths="$(LIBS)"/>
@@ -165,12 +170,11 @@
 							</tool>
 						</toolChain>
 					</folderInfo>
-					<fileInfo id="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.1792027861.301566716" name="Network_LWFTP_Test.c" rcbsApplicability="disable" resourcePath="network/Network_LWFTP_Test.c" toolsToInvoke="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.1397207158.546900479">
-						<tool id="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.1397207158.546900479" name="Cross ARM C Compiler" superClass="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.1397207158"/>
-					</fileInfo>
 					<fileInfo id="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.1792027861.1369359653" name="Network_LWFTP_Test.h" rcbsApplicability="disable" resourcePath="network/Network_LWFTP_Test.h" toolsToInvoke=""/>
 					<sourceEntries>
-						<entry excluding="network/Network_LWFTP_Test.c|network/Network_LWFTP_Test.h|fatfs/src/option|network/Network_LWFTP2.h|network/Network_LWFTP2.c|lib|lwip/src/core/ipv6|lwip/src/include/ipv6|platform|platform/composite/src/soundcard|platform/hal/src/irtc|platform/hal/src/slcd|platform/utilities/src/virtual_com|platform/hal/src/flexio/fsl_flexio_spi_hal.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+						<entry excluding="fatfs/fsl_sd_disk/src/fsl_sdspi_disk.c|fatfs/option|fatfs/fsl_usb_disk|network/Network_LWFTP_Test.c|network/Network_LWFTP_Test.h|fatfs/src/option|network/Network_LWFTP2.h|network/Network_LWFTP2.c|lib|lwip/src/core/ipv6|lwip/src/include/ipv6|platform|platform/composite/src/soundcard|platform/hal/src/irtc|platform/hal/src/slcd|platform/utilities/src/virtual_com|platform/hal/src/flexio/fsl_flexio_spi_hal.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+						<entry excluding="src/soundcard|src/sdcard/fsl_sdcard_spi.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="platform/composite"/>
+						<entry excluding="src/virtual_com|inc/virtual_com" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="platform/utilities"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -332,6 +336,9 @@
 							</tool>
 						</toolChain>
 					</folderInfo>
+					<sourceEntries>
+						<entry excluding="platform/utilities/src/virtual_com|platform/utilities/inc/virtual_com|platform/composite/src/soundcard|platform/composite/src/sdcard/fsl_sdcard_spi.c|fatfs/fsl_sd_disk/src/fsl_sdspi_disk.c|fatfs/option|fatfs/fsl_usb_disk" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+					</sourceEntries>
 				</configuration>
 			</storageModule>
 			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>

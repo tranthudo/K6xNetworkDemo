@@ -168,6 +168,7 @@ void BOARD_ClockInit(void)
     // Setup OSC0 if used.
     // Configure OSC0 pin mux.
     PORT_HAL_SetMuxMode(EXTAL0_PORT, EXTAL0_PIN, EXTAL0_PINMUX);
+    PORT_HAL_SetMuxMode(XTAL0_PORT, XTAL0_PIN, XTAL0_PINMUX); //thinhnt added for = haidong proj
     BOARD_InitOsc0();
 
     // Setup RTC external clock if used.

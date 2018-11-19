@@ -14,7 +14,6 @@ S_UPPER_DEPS :=
 
 # Every subdirectory with source files must be described here
 SUBDIRS := \
-utilities \
 startup \
 src \
 rtos/uCOSIII/src/uCOS-III/Source \
@@ -23,6 +22,8 @@ rtos/uCOSIII/src/uC-LIB \
 rtos/uCOSIII/src/uC-CPU \
 rtos/uCOSIII/src/uC-CPU/ARM-Cortex-M4/GNU \
 rtos/uCOSIII/src/config \
+platform/utilities/src \
+platform/composite/src/sdcard \
 network \
 lwip/src/netif \
 lwip/src/netif/ppp \
@@ -31,6 +32,7 @@ lwip/src/core/snmp \
 lwip/src/core/ipv4 \
 lwip/src/api \
 lwip/port \
+fatfs/fsl_sd_disk/src \
 fatfs \
 board \
 

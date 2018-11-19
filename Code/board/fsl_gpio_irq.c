@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013-2014, Freescale Semiconductor, Inc.
+ * Copyright (c) 2014, Freescale Semiconductor, Inc.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification,
@@ -28,34 +28,27 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#include <assert.h>
+#include "fsl_gpio_driver.h"
 #include "board.h"
-#include "pin_mux.h"
-#include "fsl_clock_manager.h"
-#include "fsl_debug_console.h"
 
-void hardware_init(void) {
+///////////////////////////////////////////////////////////////////////////////
+// Code
+///////////////////////////////////////////////////////////////////////////////
+extern void sdhc_card_detection(void);
+/*!
+ * @brief gpio IRQ handler with the same name in startup code
+ */
+void BOARD_SDHC_CD_GPIO_IRQ_HANDLER(void)
+{
+    PORT_Type * gpioBase = g_portBase[GPIO_EXTRACT_PORT(kGpioSdhc0Cd)];
+    uint32_t pin = GPIO_EXTRACT_PIN(kGpioSdhc0Cd);
 
-  /* enable clock for PORTs */
-  CLOCK_SYS_EnablePortClock(PORTA_IDX); // added for port Ethernet
-  CLOCK_SYS_EnablePortClock(PORTB_IDX); // added for port debug, Ethernet
-  CLOCK_SYS_EnablePortClock(PORTC_IDX);// added for port Ethernet
-  CLOCK_SYS_EnablePortClock(PORTE_IDX); // added for sdhc
-
-  configure_enet_pins(0); // configure ethernet
-  configure_sdhc_pins(0); // added for sdhc
-  /* Init board clock */
-  BOARD_ClockInit();
-  dbg_uart_init();
+    if(PORT_HAL_GetPortIntFlag(gpioBase) == (1 << pin))
+    {
+        //sdhc_card_detection();
+    }
+    /* Clear interrupt flag.*/
+    PORT_HAL_ClearPortIntFlag(gpioBase);
 }
 
-/*!
-** @}
-*/
-/*
-** ###################################################################
-**
-**     This file was created by Processor Expert 10.4 [05.10]
-**     for the Freescale Kinetis series of microcontrollers.
-**
-** ###################################################################
-*/

@@ -33,7 +33,7 @@
 
 #include <stdint.h>
 #include "fsl_os_abstraction.h"
-
+#include "fsl_misc_utilities.h"
 /*
  * @addtogroup debug_console
  * @{
@@ -53,6 +53,7 @@
 #else
 /*Configuration for toolchain's printf/scanf or KSDK version printf/scanf */
 #define PRINTF          debug_printf
+#define LREP          	debug_printf
 //#define PRINTF          printf
 #define SCANF           debug_scanf
 //#define SCANF           scanf

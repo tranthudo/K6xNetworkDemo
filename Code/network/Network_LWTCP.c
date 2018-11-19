@@ -19,7 +19,6 @@ static task_handler_t taskHandler[LWTCP_SERVER_MAX_CLIENT];
 static task_stack_t *stackMem[LWTCP_SERVER_MAX_CLIENT] ;
 static bool clientThreadActivate[LWTCP_SERVER_MAX_CLIENT];
 static int childfds[LWTCP_SERVER_MAX_CLIENT];
-char tmpStr[128];
 
 mutex_t tcp_Mutex;
 osa_status_t status;
@@ -144,6 +143,7 @@ static void tcp_server_thread(void *arg)
     static task_stack_t *stackMem[LWTCP_SERVER_MAX_CLIENT] ;
 
     for (i = 0; i < LWTCP_SERVER_MAX_CLIENT; i++) {
+    	char tmpStr[128];
     	taskHandler[i] = (task_handler_t)OSA_MemAlloc(sizeof(OS_TCB));
     	if(!taskHandler[i])
     	{
@@ -214,6 +214,8 @@ static void tcp_server_thread(void *arg)
 					OSA_MutexUnlock(&tcp_Mutex);
 					PRINTF("number_of_connected_clients changed to %d\r\n", number_of_connected_clients);
 				}
+			} else {
+				PRINTF("idx(%d) < LWTCP_SERVER_MAX_CLIENT(%d)\r\n", idx, LWTCP_SERVER_MAX_CLIENT);
 			}
 		} else {
 			OSA_MutexUnlock(&tcp_Mutex);

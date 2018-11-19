@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013-2014, Freescale Semiconductor, Inc.
+ * Copyright (c) 2014, Freescale Semiconductor, Inc.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification,
@@ -27,35 +27,12 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+#include "fsl_sdhc_driver.h"
 
-#include "board.h"
-#include "pin_mux.h"
-#include "fsl_clock_manager.h"
-#include "fsl_debug_console.h"
-
-void hardware_init(void) {
-
-  /* enable clock for PORTs */
-  CLOCK_SYS_EnablePortClock(PORTA_IDX); // added for port Ethernet
-  CLOCK_SYS_EnablePortClock(PORTB_IDX); // added for port debug, Ethernet
-  CLOCK_SYS_EnablePortClock(PORTC_IDX);// added for port Ethernet
-  CLOCK_SYS_EnablePortClock(PORTE_IDX); // added for sdhc
-
-  configure_enet_pins(0); // configure ethernet
-  configure_sdhc_pins(0); // added for sdhc
-  /* Init board clock */
-  BOARD_ClockInit();
-  dbg_uart_init();
+void SDHC_IRQHandler(void)
+{
+#if defined BSP_FSL_SDHC_USING_IRQ
+    SDHC_DRV_DoIrq(0);
+#endif
 }
 
-/*!
-** @}
-*/
-/*
-** ###################################################################
-**
-**     This file was created by Processor Expert 10.4 [05.10]
-**     for the Freescale Kinetis series of microcontrollers.
-**
-** ###################################################################
-*/
