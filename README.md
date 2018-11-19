@@ -149,17 +149,47 @@ This project demonstrate connect and use network via Ethernet or SIM Module usin
 
 1. Module ethernet:
 
-+ Sử dụng ethernet MAC của MCU
+    + Sử dụng ethernet MAC của MCU
 
-+ Sử dụng DMA
+    + Sử dụng DMA
 
 2. Module wireless:
 
-+ Sử dụng module 3G của Simcom
+    + Sử dụng module 3G của Simcom
 
-+ Recommend sử dụng tập lệnh AT
-
-support framework-sample: có trong SDK của hãng:
+    + Recommend sử dụng tập lệnh AT
+3. Ví dụ: <br>
+    * Test bằng cách để 1 file txt có nội dung như file hôm nọ em gửi trong thẻ nhớ, sau đó đọc file đó và gửi lên FTP server 1 phút 1 lần (modifed name cho đỡ overwrite) cấu trúc thư mục như hôm trước e gửi
+    thư mục phân cấp theo ngày tháng như này: `tp://27.118.20.209/2018/11/07/`
+    * Mỗi 5 phút gửi 1 file, trong 1 ngày có 244 file, tức là 1 thư mục có 244 file, hết ngày mới make thư mục mới nhé, về thời gian có thể fake theo tickcount hệ thống, 
+    * Ví dụ filename có thể là: `AG_SGCE_KHI001_20181107105400.txt` tức là file tạo ngày *2018.11.07*, lúc *10:54:00* 
+4. support framework-sample: có trong SDK của hãng:
+## Note about SDK and setup environment
+### Memory Area
+Giá trị ban đầu của memory areas:
+```
+/* Specify the memory areas */
+MEMORY
+{
+  m_interrupts          (RX)  : ORIGIN = 0x00000000, LENGTH = 0x00000400
+  m_flash_config        (RX)  : ORIGIN = 0x00000400, LENGTH = 0x00000010
+  m_text                (RX)  : ORIGIN = 0x00000410, LENGTH = 0x000FFBF0
+  m_data                (RW)  : ORIGIN = 0x1FFF0000, LENGTH = 0x00010000
+  m_data_2              (RW)  : ORIGIN = 0x20000000, LENGTH = 0x00030000
+}
+```
+Giá trị lúc sau của memory areas
+/* Specify the memory areas */
+MEMORY
+{
+  m_interrupts          (RX)  : ORIGIN = 0x00000000, LENGTH = 0x00000400
+  m_flash_config        (RX)  : ORIGIN = 0x00000400, LENGTH = 0x00000010
+  m_text                (RX)  : ORIGIN = 0x00000410, LENGTH = 0x000FFBF0
+  m_data                (RW)  : ORIGIN = 0x1FFF0000, LENGTH = 0x00020000
+  m_data_2              (RW)  : ORIGIN = 0x20010000, LENGTH = 0x00020000
+}
+### Printing code size
+`${cross_prefix}size${cross_suffix} --format=berkeley ${BuildArtifactFileName}`
 
 ## Reference 
 - [KINETIS-SDK](https://www.nxp.com/support/developer-resources/evaluation-and-development-boards/freedom-development-boards/mcu-boards/software-development-kit-for-kinetis-mcus:KINETIS-SDK)
