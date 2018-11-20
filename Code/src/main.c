@@ -161,7 +161,7 @@ void threads_init() {
 	}
 	// end of hai dong code
 
-	sys_thread_new("Example", example_thread, NULL, 4096, 4);
+	sys_thread_new("Example", example_thread, NULL, 4096, 8);
 	OSA_Start();
 }
 

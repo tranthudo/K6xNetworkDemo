@@ -10,7 +10,68 @@
  */
 #include "Network.h"
 
+
+static char tmpStr[128];
+static char tmpPath[128];
+//static char filePath[128];
+
+#include "fsl_sdhc_card.h"
+#include "fsl_sdmmc_card.h"
+#include "fsl_debug_console.h"
+#include "ff.h"
+
 SNetStt g_Network_Status;
+
+char** str_split(char* a_str, const char a_delim)
+{
+	memset(tmpStr, 0x00, sizeof(tmpStr));
+	strcpy(tmpStr,a_str);
+	PRINTF("\r\n str_split %s\r\n", tmpStr);
+	char** result    = 0;
+	size_t count     = 0;
+	char* tmp        = tmpStr;
+	char* last_comma = 0;
+	char delim[2];
+	delim[0] = a_delim;
+	delim[1] = 0;
+
+	/* Count how many elements will be extracted. */
+	while (*tmp)
+	{
+		if (a_delim == *tmp)
+		{
+			count++;
+			last_comma = tmp;
+		}
+		tmp++;
+	}
+
+	/* Add space for trailing token. */
+	count += last_comma < (tmpStr + strlen(tmpStr) - 1);
+
+	/* Add space for terminating null string so caller
+       knows where the list of returned strings ends. */
+	count++;
+
+	result = malloc(sizeof(char*) * count);
+
+	if (result)
+	{
+		size_t idx  = 0;
+		char* token = strtok(tmpStr, delim);
+
+		while (token)
+		{
+			assert(idx < count);
+			*(result + idx++) = strdup(token);
+			token = strtok(0, delim);
+		}
+		assert(idx == count - 1);
+		*(result + idx) = 0;
+	}
+
+	return result;
+}
 
 /**
  * @brief Khoi tao module SIM + Ethernet, Enable DHCP
@@ -72,7 +133,8 @@ NetStatus Net_TCPServerSetCallback(ClientThread fn)
  */
 NetStatus Net_TCPClientStart(const char* ip, int port)
 {
-
+	//TODO: Implement
+	return NET_ERR_NONE;
 }
 /**
  * @brief Return Netstatus of IF & connection status
@@ -95,27 +157,96 @@ SNetStt Net_ModuleGetStatus() {
  */
 NetStatus Net_FTPClientStart(const char *ip, int port, const char* usrname, const char* passwd) {
 	lwtcp_result_t ret1 = Network_LWFTP_Start(ip, port, usrname, passwd);
-		if (ret1 != LWTCP_RESULT_OK)
-			return NET_ERR_LWIP_FTPCLIENT;
+	if (ret1 != LWTCP_RESULT_OK)
+		return NET_ERR_LWIP_FTPCLIENT;
 	return NET_ERR_NONE;
 }
 /**
  * @brief If connected then send file.
  * If file send failed retry 3 times
  *
- * @param dirPath
- * @param fileName
+ * @param dirPath directory in the filesystem (sdcard)
+ * @param fileName file name (filename should include datetime information)
  * @return NetStatus
  */
 NetStatus Net_FTPClientSendFile(const char *dirPath, const char *fileName) {
-	lwftp_result_t ret1;
-	if (g_Network_Status.NetIF == NET_IF_ETHERNET) {
-		ret1 = Network_LWFTP_SendFile(dirPath, fileName);
-		if (ret1 == LWFTP_RESULT_OK) {
-			return NET_ERR_NONE;
+	PRINTF("\r\nNet_FTPClientSendFile (%s,%s)\r\n", dirPath, fileName);
+	NetStatus ret;
+	lwftp_result_t ret1 = LWFTP_RESULT_OK;
+	/**
+	 * TODO: Seperate filename to get the datetime information AG_SGCE_KHI001_20181107105400.txt
+	 * datetime will be /2018/11/07 for folder
+	 * AG_SGCE_KHI001_20181107105400.txt will be stored in that folder
+	 */
+	char** tokens;
+	int i = 0, err, retVal;
+	int len;
+	char cwd[128];
+	tokens= str_split(fileName, '_');//AG_SGCE_KHI001_20181107105400.txt then *tokens ->
+	if (tokens) {
+		while(*(tokens+i)) {
+			i++;
 		}
+		if (i > 0) {
+			i-=1;
+			len = strlen(*(tokens+i));
+			if (len >= 14) {
+				// Do something with this filename  AG_SGCE_KHI001_20181107105400.txt
+				memset(tmpStr,0,sizeof(tmpStr));
+				memset(tmpPath,0,sizeof(tmpPath));
+				strcpy(tmpPath, DEFAULT_FTP_FOLDER_PATH);//tmpPath = "/home/ftpuser1/test/thinh"
+				strcat(tmpPath, "/"); // tmpPath = "/home/ftpuser1/test/thinh"
+				memcpy(tmpStr, *(tokens+i), 4);// copy year 2018
+				strcat(tmpPath, tmpStr); //tmpPath = "/home/ftpuser1/test/thinh/2018"
+
+				memset(tmpStr,0,sizeof(tmpStr));
+				memcpy(tmpStr, (*(tokens+i))+4, 2);// copy month 11
+				strcat(tmpPath, ("/")); // now tmpPath = "/home/ftpuser1/test/thinh/2018/"
+				strcat(tmpPath, tmpStr); // now tmpPath = "/home/ftpuser1/test/thinh/2018/11"
+
+				memset(tmpStr,0,sizeof(tmpStr));
+				memcpy(tmpStr, (*(tokens+i))+6, 2);// copy day 07
+				strcat(tmpPath, ("/")); // now tmpPath = "/home/ftpuser1/test/thinh/2018/11/"
+				strcat(tmpPath, tmpStr); // now tmpPath = "/home/ftpuser1/test/thinh/2018/11/07"
+
+
+//				strcpy(filePath,dirPath); // filePath = "/home
+//				strcat(filePath, ("/")); // now tmpPath = "/home/"
+//				strcat(filePath, fileName); // now tmpPath = "/home/AG_SGCE_KHI001_20181107105400.txt"
+				err = f_getcwd(cwd, sizeof(cwd));
+				if(err == FR_OK) {
+					LREP("current dir = %s\r\n", cwd);
+					//LREP("cwd successfully\r\n");
+				} else {
+					LREP("cwd failed \r\n");
+				}
+				// Change directory to dirpath
+				retVal = f_chdir(dirPath);
+				if(retVal != FR_OK) {
+					LREP("chdir err = %d\r\n", retVal);
+				}
+				// Send file
+				PRINTF("SendFile: %s,%s", tmpPath, fileName);
+				ret1 = Network_LWFTP_SendFile(tmpPath, fileName); // dirpath should be
+				if (ret1 == LWFTP_RESULT_OK) {
+					ret = NET_ERR_NONE;
+				}
+				// change back to previous directory
+				retVal = f_chdir(cwd);
+				if(retVal != FR_OK) {
+					LREP("chdir err = %d\r\n", retVal);
+				}
+			}
+		}
+		i = 0;
+		while(*(tokens+i)) {
+			free(*(tokens+i));
+			i++;
+		}
+		free(tokens);
+	} else {
+		return NET_ERR_FILENAME;
 	}
-	return NET_ERR_UNKNOWN;
 }
 
 NetStatus Net_FTPClientDeleteFile(const char *path)
@@ -137,6 +268,7 @@ NetStatus Net_FTPClientDeleteFile(const char *path)
  * @return NetStatus
  */
 NetStatus Net_TCPClientSendData(const uint8_t *data, uint32_t length) {
+
 
 }
 /**

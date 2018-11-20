@@ -28,6 +28,10 @@
 #define KCYN  "\x1B[36m"
 #define KWHT  "\x1B[37m"
 
+
+#define DEFAULT_FTP_FOLDER_PATH "/home/ftpuser1/test/thinh"
+#define ENABLE_FTP_FILE_TEST "AG_SGCE_KHI001_20181107105400.txt"
+
 #ifndef min
 #define min(a,b) (((a)<(b))?(a):(b))
 #define max(a,b) (((a)>(b))?(a):(b))
@@ -55,6 +59,7 @@ typedef enum eNetStatus {
     NET_ERR_NONE = 0, 
     NET_ERR_MODULE_NOT_INIT, 
     NET_ERR_PARAM, 
+	NET_ERR_FILENAME,
     NET_ERR_SEND_FAILD, 
     NET_ERR_LOST_CONNECTION, 
     NET_ERR_BUSY, 

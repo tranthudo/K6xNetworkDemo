@@ -44,68 +44,16 @@ static char 	tmpStr[LWFTP_CONST_BUF_SIZE+8];
 static char 	request_msg[LWFTP_CONST_BUF_SIZE+8], reply_msg[LWFTP_CONST_BUF_SIZE+8], data_buf[LWFTP_CONST_BUF_SIZE+8];
 static int lwftp_bufsize = LWFTP_CONST_BUF_SIZE;
 
-
 // Define static functions
 static lwftp_result_t lwftp_reconnect();
 static lwftp_result_t lwftp_connect();
-static char** str_split(char* a_str, const char a_delim);
 
-static char** str_split(char* a_str, const char a_delim)
-{
-	memset(tmpStr, 0x00, sizeof(tmpStr));
-	strcpy(tmpStr,a_str);
-	PRINTF("\r\n str_split %s\r\n", tmpStr);
-    char** result    = 0;
-    size_t count     = 0;
-    char* tmp        = tmpStr;
-    char* last_comma = 0;
-    char delim[2];
-    delim[0] = a_delim;
-    delim[1] = 0;
-
-    /* Count how many elements will be extracted. */
-    while (*tmp)
-    {
-        if (a_delim == *tmp)
-        {
-            count++;
-            last_comma = tmp;
-        }
-        tmp++;
-    }
-
-    /* Add space for trailing token. */
-    count += last_comma < (tmpStr + strlen(tmpStr) - 1);
-
-    /* Add space for terminating null string so caller
-       knows where the list of returned strings ends. */
-    count++;
-
-    result = malloc(sizeof(char*) * count);
-
-    if (result)
-    {
-        size_t idx  = 0;
-        char* token = strtok(tmpStr, delim);
-
-        while (token)
-        {
-            assert(idx < count);
-            *(result + idx++) = strdup(token);
-            token = strtok(0, delim);
-        }
-        assert(idx == count - 1);
-        *(result + idx) = 0;
-    }
-
-    return result;
-}
 /**
  * Reconnect in case not connected
  * @return LWFTP_RESULT_OK if connected
  */
 static lwftp_result_t lwftp_reconnect(){
-	if (!PHY_Get_Initialized_LinkStatus()) {
+	if (!Network_LWIP_Is_Up()) {
 		lwftp_connected = false;
 		lwftp_state = LWFTP_CLOSED;
 		PRINTF("lwftp_reconnect Failed because ethernet down \r\n");
@@ -210,7 +158,7 @@ static lwftp_result_t lwftp_connect()
 	strcat(request_msg, "\r\n");
 	PRINTF("Enter Loggin INformation: %s\r\n", request_msg);
 	write(socket_ctrl, request_msg, strlen(request_msg));
-	memset(reply_msg,0x00,LWFTP_CONST_BUF_SIZE);
+	memset(reply_msg,0x00,lwftp_bufsize);
 	lwftp_receive_ctrl_data(socket_ctrl, reply_msg, lwftp_bufsize);
 	// Enter logging information PASSWORD
 	strcpy(request_msg, "PASS ");
@@ -218,7 +166,7 @@ static lwftp_result_t lwftp_connect()
 	strcat(request_msg, "\r\n");
 	PRINTF("Enter Password: %s\r\n", lwftp_passwd);
 	write(socket_ctrl, request_msg, strlen(request_msg));
-	memset(reply_msg,0x00,LWFTP_CONST_BUF_SIZE);
+	memset(reply_msg,0x00,lwftp_bufsize);
 	lwftp_receive_ctrl_data(socket_ctrl, reply_msg, lwftp_bufsize);
 	lwftp_state = LWFTP_CONNECTED;
 	return LWFTP_RESULT_OK;
@@ -334,7 +282,7 @@ lwftp_result_t Network_LWFTP_SendFile(const char *dirPath, const char *fileName)
 		} else {
 			PRINTF("Connected data port\r\n");
 		}
-		// Store a file read from sdcard
+		// Store a file read from sdcard "STOR ./<fileName>\r\n"
 		memset(request_msg, 0x00, sizeof(request_msg));
 		strcpy(request_msg, "STOR ");
 		strcat(request_msg, "./"); // concatenate with current directory path
@@ -345,12 +293,11 @@ lwftp_result_t Network_LWFTP_SendFile(const char *dirPath, const char *fileName)
 		PRINTF("Send to socket_ctrl: %s\r\n", request_msg);
 		write(socket_ctrl, request_msg, strlen(request_msg));
 		// Write data to file in server
-		// Continue to read from file and ....
-		strcpy(path, dirPath);
-		strcat(path, "/");
-		strcat(path, fileName);
-		PRINTF("Open file: %s and send to ftpserver\r\n", path);
+#ifdef ENABLE_FTP_FILE_TEST
+		fr = f_open(&fil, ENABLE_FTP_FILE_TEST, FA_READ);
+#else
 		fr = f_open(&fil, fileName, FA_READ);
+#endif
 		btr = LWFTP_CONST_LINE_SIZE;
 		if (fr == FR_OK) {
 			do {
@@ -386,7 +333,7 @@ lwftp_result_t Network_LWFTP_SendFile(const char *dirPath, const char *fileName)
 				if (response > 0) {
 					if (response==150) {
 						ret = LWFTP_RESULT_OK;
-						PRINTF(("Send file to FTP Sucessfully\r\n"));
+						PRINTF(("Send file to FTP Successfully\r\n"));
 					}
 				}
 			}
@@ -527,6 +474,7 @@ lwftp_result_t Network_LWFTP_MKD(const char* dirpath)
 			for (i = 0; *(tokens + i); i++)
 			{
 				if (isNotOK == true) {
+
 					free(*(tokens + i));
 					continue;
 				}

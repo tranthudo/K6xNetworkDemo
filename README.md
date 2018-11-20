@@ -163,6 +163,7 @@ This project demonstrate connect and use network via Ethernet or SIM Module usin
     thư mục phân cấp theo ngày tháng như này: `tp://27.118.20.209/2018/11/07/`
     * Mỗi 5 phút gửi 1 file, trong 1 ngày có 244 file, tức là 1 thư mục có 244 file, hết ngày mới make thư mục mới nhé, về thời gian có thể fake theo tickcount hệ thống, 
     * Ví dụ filename có thể là: `AG_SGCE_KHI001_20181107105400.txt` tức là file tạo ngày *2018.11.07*, lúc *10:54:00* 
+    * Khi gọi `Net_FTPClientSendFile("/home/2018/11/07", "AG_SGCE_KHI001_20181107105400.txt")` a sẽ đọc file từ sdcard /home/2018/11/07/AG_SGCE_KHI001_20181107105400.txt" và lưu trên ftp là 2018/11/07/AG_SGCE_KHI001_20181107105400.txt
 4. support framework-sample: có trong SDK của hãng:
 ## Note about SDK and setup environment
 ### Memory Area

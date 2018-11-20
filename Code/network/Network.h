@@ -14,6 +14,13 @@
 #include "Network_LWTCP.h"
 #include "Network_LWFTP_Test.h"
 /**
+ * Split a string
+ * @param a_str pointer to string
+ * @param a_delim delimeter to split
+ * @return
+ */
+char** str_split(char* a_str, const char a_delim);
+/**
  * @brief Khoi tao module SIM + Ethernet, Enable DHCP
  * 
  * @return int 
@@ -32,7 +39,12 @@ NetStatus Net_TCPServerStart(int port);
  * @return
  */
 NetStatus Net_TCPServerSetCallback(ClientThread fn);
-
+/**
+ * Start and TCP client
+ * @param ip
+ * @param port
+ * @return
+ */
 NetStatus Net_TCPClientStart(const char* ip, int port);
 /**
  * @brief Return Netstatus of IF & connection status
