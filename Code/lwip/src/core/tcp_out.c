@@ -1106,8 +1106,17 @@ tcp_output_segment(struct tcp_seg *seg, struct tcp_pcb *pcb)
     pcb->rttest = tcp_ticks;
     pcb->rtseq = ntohl(seg->tcphdr->seqno);
 
+    /* ThinhNT Added following line
+     * If the reference count is more than 1, we assume the driver still
+     * has a reference and it is still queued to be sent from before,
+     * so we don't need to retransmit.
+     */
+    if (seg->p->ref > 1) {
+       return;
+    }
     LWIP_DEBUGF(TCP_RTO_DEBUG, ("tcp_output_segment: rtseq %"U32_F"\n", pcb->rtseq));
   }
+
   LWIP_DEBUGF(TCP_OUTPUT_DEBUG, ("tcp_output_segment: %"U32_F":%"U32_F"\n",
           htonl(seg->tcphdr->seqno), htonl(seg->tcphdr->seqno) +
           seg->len));

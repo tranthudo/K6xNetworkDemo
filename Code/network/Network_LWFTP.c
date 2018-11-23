@@ -93,14 +93,15 @@ static int lwftp_receive_ctrl_data(int sock, char* buf, int bufsize) {
 	int resp_len = 0, total_len=0;
 	int max_receive_byte = bufsize;
 	do {
+		memset(reply_msg, 0x00, sizeof(reply_msg));
 		max_receive_byte -= resp_len;
-		resp_len = recv(sock, reply_msg+total_len, max_receive_byte, 0);
+		resp_len = recv(sock, reply_msg, max_receive_byte, 0);
 		total_len+= resp_len;
 		if (resp_len > 0)
 			PRINTF("reply_msg (len = %d):  %s\r\n",resp_len, reply_msg);
 
 	} while (resp_len > 0 && resp_len < lwftp_bufsize);
-	return resp_len;
+	return total_len;
 }
 
 
@@ -158,15 +159,16 @@ static lwftp_result_t lwftp_connect()
 	strcat(request_msg, "\r\n");
 	PRINTF("Enter Loggin INformation: %s\r\n", request_msg);
 	write(socket_ctrl, request_msg, strlen(request_msg));
-	memset(reply_msg,0x00,lwftp_bufsize);
+	//memset(reply_msg,0x00,lwftp_bufsize);
 	lwftp_receive_ctrl_data(socket_ctrl, reply_msg, lwftp_bufsize);
 	// Enter logging information PASSWORD
+	memset(request_msg, 0x00, sizeof(request_msg));
 	strcpy(request_msg, "PASS ");
 	strcat(request_msg, lwftp_passwd);
 	strcat(request_msg, "\r\n");
 	PRINTF("Enter Password: %s\r\n", lwftp_passwd);
 	write(socket_ctrl, request_msg, strlen(request_msg));
-	memset(reply_msg,0x00,lwftp_bufsize);
+	//memset(reply_msg,0x00,sizeof(reply_msg));
 	lwftp_receive_ctrl_data(socket_ctrl, reply_msg, lwftp_bufsize);
 	lwftp_state = LWFTP_CONNECTED;
 	return LWFTP_RESULT_OK;
@@ -245,8 +247,9 @@ lwftp_result_t Network_LWFTP_SendFile(const char *dirPath, const char *fileName)
 		// Getting the PASV port
 		memset(request_msg, 0x00, sizeof(request_msg));
 		strcpy(request_msg, "PASV\r\n");
+		OSA_TimeDelay(10);
 		write(socket_ctrl, request_msg, strlen(request_msg));
-		memset(reply_msg,0x00,BUFSIZ);
+		memset(reply_msg,0x00,sizeof(reply_msg));
 		recv(socket_ctrl, reply_msg, BUFSIZ, 0);
 		resp_code = strtoul(reply_msg, NULL, 10);
 		PRINTF("reply_msg:  %s resp_code = %d\r\n", reply_msg, resp_code);
@@ -552,6 +555,7 @@ lwftp_result_t Network_LWFTP_CWD(const char* dirpath)
 		strcat(request_msg, dirpath);
 		strcat(request_msg, "\r\n");
 		PRINTF("Change to directory %s\r\n", request_msg);
+		OSA_TimeDelay(10);
 		write(socket_ctrl, request_msg, strlen(request_msg));
 		result = LWFTP_RESULT_ERR_FILENAME;
 		do {

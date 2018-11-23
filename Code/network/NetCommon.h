@@ -15,9 +15,9 @@
 #define LWIP_NETCONN 1
 #endif
 
-#ifndef NETMODULE_DEBUG
+//#ifndef NETMODULE_DEBUG
 #define NETMODULE_DEBUG         LWIP_DBG_ON
-#endif
+///#endif
 
 #define KNRM  "\x1B[0m"
 #define KRED  "\x1B[31m"

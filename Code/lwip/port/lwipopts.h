@@ -42,7 +42,7 @@
  * critical regions during buffer allocation, deallocation and memory
  * allocation and deallocation.
  */
-#define SYS_LIGHTWEIGHT_PROT    0
+#define SYS_LIGHTWEIGHT_PROT    1
 #if USE_RTOS
 
 /**
@@ -63,6 +63,7 @@
  * SO_RCVTIMEO processing.
  */
 #define LWIP_SO_RCVTIMEO        1 //thinhnt uncomment for getting timeout
+#define LWIP_SO_SNDTIMEO		1
 #define LWIP_NETIF_STATUS_CALLBACK 1 // thinhnt added
 #define LWIP_NETIF_LINK_CALLBACK 1 // thinhnt added
 #else
@@ -120,7 +121,7 @@
 
 /* ---------- Pbuf options ---------- */
 /* PBUF_POOL_SIZE: the number of buffers in the pbuf pool. */
-#define PBUF_POOL_SIZE          10
+#define PBUF_POOL_SIZE          128//10
 
 /* PBUF_POOL_BUFSIZE: the size of each pbuf in the pbuf pool. */
 #define PBUF_POOL_BUFSIZE       1518

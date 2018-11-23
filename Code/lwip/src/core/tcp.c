@@ -1053,6 +1053,7 @@ tcp_fasttmr_start:
   pcb = tcp_active_pcbs;
 
   while(pcb != NULL) {
+	//PRINTF("0: pcb=%08x, pcb->next=%08x\r\n", pcb, pcb->next);
     if (pcb->last_timer != tcp_timer_ctr) {
       struct tcp_pcb *next;
       pcb->last_timer = tcp_timer_ctr;
