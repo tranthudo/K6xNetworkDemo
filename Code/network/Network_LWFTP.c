@@ -37,11 +37,12 @@ static char* lwftp_passwd;
 static int lwftp_port;
 struct timeval tv;
 static lwftp_state_t lwftp_state = LWFTP_CLOSED;
-static int 	socket_ctrl = NULL, socket_dat = NULL;
-static struct 	sockaddr_in server_ctrl, server_dat;
+static int socket_ctrl = NULL, socket_dat = NULL;
+static struct sockaddr_in server_ctrl, server_dat;
 //char* 	request_msg,reply_msg;
-static char 	tmpStr[LWFTP_CONST_BUF_SIZE+8];
-static char 	request_msg[LWFTP_CONST_BUF_SIZE+8], reply_msg[LWFTP_CONST_BUF_SIZE+8], data_buf[LWFTP_CONST_BUF_SIZE+8];
+//static char 	tmpStr[LWFTP_CONST_BUF_SIZE+8];
+static char request_msg[LWFTP_CONST_BUF_SIZE + 8],
+		reply_msg[LWFTP_CONST_BUF_SIZE + 8], data_buf[LWFTP_CONST_BUF_SIZE + 8];
 static int lwftp_bufsize = LWFTP_CONST_BUF_SIZE;
 
 // Define static functions
@@ -52,7 +53,7 @@ static lwftp_result_t lwftp_connect();
  * Reconnect in case not connected
  * @return LWFTP_RESULT_OK if connected
  */
-static lwftp_result_t lwftp_reconnect(){
+static lwftp_result_t lwftp_reconnect() {
 	if (!Network_LWIP_Is_Up()) {
 		lwftp_connected = false;
 		lwftp_state = LWFTP_CLOSED;
@@ -63,10 +64,8 @@ static lwftp_result_t lwftp_reconnect(){
 	int iTries = 0;
 	while (iTries++ < 10) {
 		// Step 1: Connect to the server if not connected
-		if (lwftp_connected != true)
-		{
-			if (lwftp_ip != NULL)
-			{
+		if (lwftp_connected != true) {
+			if (lwftp_ip != NULL) {
 				ret = lwftp_connect();
 			}
 			if (ret != LWFTP_RESULT_OK) {
@@ -90,25 +89,21 @@ static lwftp_result_t lwftp_reconnect(){
  * @return number of received bytes
  */
 static int lwftp_receive_ctrl_data(int sock, char* buf, int bufsize) {
-	int resp_len = 0, total_len=0;
+	int resp_len = 0, total_len = 0;
 	int max_receive_byte = bufsize;
 	do {
 		memset(reply_msg, 0x00, sizeof(reply_msg));
 		max_receive_byte -= resp_len;
 		resp_len = recv(sock, reply_msg, max_receive_byte, 0);
-		total_len+= resp_len;
+		total_len += resp_len;
 		if (resp_len > 0)
-			PRINTF("reply_msg (len = %d):  %s\r\n",resp_len, reply_msg);
+			PRINTF("reply_msg (len = %d):  %s\r\n", resp_len, reply_msg);
 
 	} while (resp_len > 0 && resp_len < lwftp_bufsize);
 	return total_len;
 }
 
-
-
-
-static bool lwftp_is_busy()
-{
+static bool lwftp_is_busy() {
 	static bool lwftp_busy = false;
 	return lwftp_busy;
 }
@@ -116,33 +111,33 @@ static bool lwftp_is_busy()
  * Connect using already setup ip address of server + user/pass
  * @return result of connection
  */
-static lwftp_result_t lwftp_connect()
-{
+static lwftp_result_t lwftp_connect() {
 	int ret;
 	if (socket_ctrl != NULL) {
 		close(socket_ctrl);
 	}
 	socket_ctrl = socket(AF_INET, SOCK_STREAM, 0);
 
-
-	if (socket_ctrl == -1)
-	{
+	if (socket_ctrl == -1) {
 		perror("Could not create socket");
 		lwftp_connected = false;
 		return LWFTP_RESULT_ERR_CONNECT;
+	} else {
+		PRINTF("Socket id: %d created successfully\r\n");
 	}
 	tv.tv_sec = 3000; //dkm co gi do sai sai o day khi dung lwip 3000s ma nhu la 3s
 	tv.tv_usec = 10000;
 	// set timeout of socket
-	setsockopt(socket_ctrl, SOL_SOCKET, SO_RCVTIMEO, (const char*)&tv, sizeof tv);
+	setsockopt(socket_ctrl, SOL_SOCKET, SO_RCVTIMEO, (const char* )&tv,
+			sizeof tv);
 	server_ctrl.sin_addr.s_addr = inet_addr(lwftp_ip);
 	server_ctrl.sin_family = AF_INET;
 	server_ctrl.sin_port = htons(lwftp_port);
 
 	// Connect to server
-	ret = connect(socket_ctrl, (struct sockaddr *)&server_ctrl, sizeof(server_ctrl));
-	if (ret < 0)
-	{
+	ret = connect(socket_ctrl, (struct sockaddr * )&server_ctrl,
+			sizeof(server_ctrl));
+	if (ret < 0) {
 		perror("Connection failed");
 		lwftp_connected = false;
 		return LWFTP_RESULT_ERR_CONNECT;
@@ -174,9 +169,8 @@ static lwftp_result_t lwftp_connect()
 	return LWFTP_RESULT_OK;
 }
 
-
-lwftp_result_t Network_LWFTP_Start(const char *ip, int port, const char* usrname, const char* passwd)
-{
+lwftp_result_t Network_LWFTP_Start(const char *ip, int port,
+		const char* usrname, const char* passwd) {
 	int ret;
 	// TODO: check condition before openning new connection
 	lwftp_ip = ip;
@@ -193,36 +187,38 @@ lwftp_result_t Network_LWFTP_Start(const char *ip, int port, const char* usrname
 	}
 }
 
-lwftp_result_t Network_LWFTP_SendFile(const char *dirPath, const char *fileName)
-{
+char path[256];
+
+lwftp_result_t Network_LWFTP_SendFile(const char *dirPath, const char *fileName) {
 	if (!Network_LWIP_Is_Up()) {
-		PRINTF("Network_LWFTP_SendFile Failed because ethernet down or DHCP is not Bound \r\n");
+		PRINTF(
+				"Network_LWFTP_SendFile Failed because ethernet down or DHCP is not Bound \r\n");
 		return LWFTP_RESULT_ERR_CONNECT;
 	}
 	lwftp_result_t ret = LWFTP_RESULT_ERR_UNKNOWN;
 	lwftp_result_t result;
-	char path[256];
+	memset(path, 0x00, sizeof(path));
 	int iTries = 0;
-	unsigned int a,b,c,d,e,f;
+	unsigned int a, b, c, d, e, f;
 	int resp_len = 0, response;
 	int max_receive_byte = lwftp_bufsize;
 	//(void)(a,b,c,d,e,f);
 	char *ptr;
-	int 	resp_code;
+	int resp_code;
 	unsigned long data_port; // port for data
 	FIL fil; // file object
 	UINT btr; // number of file to read
 	UINT br; // number of read bytes
 	FRESULT fr; // FatFS return code
 	size_t len; // written length
-	PRINTF("\r\n=====Network_LWFTP_SendFile: %s, %s=======\r\n", dirPath, fileName);
+	PRINTF("\r\n=====Network_LWFTP_SendFile: %s, %s=======\r\n", dirPath,
+			fileName);
 	// Connect and try at least 10 times
 	// TODO: Step 1: Check the connection, if not connect connect and try
 	while (iTries++ < 10) {
 		// Step 1: Connect to the server if not connected
 		result = lwftp_reconnect();
-		if (result != LWFTP_RESULT_OK)
-		{
+		if (result != LWFTP_RESULT_OK) {
 			OSA_TimeDelay(1000);
 			continue;
 		}
@@ -249,37 +245,39 @@ lwftp_result_t Network_LWFTP_SendFile(const char *dirPath, const char *fileName)
 		strcpy(request_msg, "PASV\r\n");
 		OSA_TimeDelay(10);
 		write(socket_ctrl, request_msg, strlen(request_msg));
-		memset(reply_msg,0x00,sizeof(reply_msg));
+		memset(reply_msg, 0x00, sizeof(reply_msg));
 		recv(socket_ctrl, reply_msg, BUFSIZ, 0);
 		resp_code = strtoul(reply_msg, NULL, 10);
 		PRINTF("reply_msg:  %s resp_code = %d\r\n", reply_msg, resp_code);
 		// Find pasv port
 		ptr = strchr(reply_msg, '(');
 		do {
-			a = strtoul(ptr+1,&ptr,10);
-			b = strtoul(ptr+1,&ptr,10);
-			c = strtoul(ptr+1,&ptr,10);
-			d = strtoul(ptr+1,&ptr,10);
-			e = strtoul(ptr+1,&ptr,10);
-			f = strtoul(ptr+1,&ptr,10);
-		} while(0);
-		data_port = e*256+f;
+			a = strtoul(ptr + 1, &ptr, 10);
+			b = strtoul(ptr + 1, &ptr, 10);
+			c = strtoul(ptr + 1, &ptr, 10);
+			d = strtoul(ptr + 1, &ptr, 10);
+			e = strtoul(ptr + 1, &ptr, 10);
+			f = strtoul(ptr + 1, &ptr, 10);
+		} while (0);
+		data_port = e * 256 + f;
 		PRINTF("pasv port =%d\r\n", data_port);
 		lwftp_state = LWFTP_PASV_SENT;
 		// connect to data port connection
 		socket_dat = socket(AF_INET, SOCK_STREAM, 0);
-		setsockopt(socket_dat, SOL_SOCKET, SO_RCVTIMEO, (const char*)&tv, sizeof tv);
-		if (socket_dat == -1)
-		{
+		setsockopt(socket_dat, SOL_SOCKET, SO_RCVTIMEO, (const char* )&tv,
+				sizeof tv);
+		if (socket_dat == -1) {
 			perror("Could not create socket");
 			return LWFTP_RESULT_ERR_INTERNAL;
+		} else {
+			PRINTF("Socket_dat: %d created successfully\r\n", socket_dat);
 		}
 		server_dat.sin_addr.s_addr = inet_addr(lwftp_ip);
 		server_dat.sin_family = AF_INET;
 		server_dat.sin_port = htons(data_port);
 		// Connect to server for data
-		if (connect(socket_dat, (struct sockaddr *)&server_dat, sizeof(server_dat)) < 0)
-		{
+		if (connect(socket_dat, (struct sockaddr * )&server_dat,
+				sizeof(server_dat)) < 0) {
 			perror("Connection data port failed");
 			return LWFTP_RESULT_ERR_CONNECT;
 		} else {
@@ -292,7 +290,7 @@ lwftp_result_t Network_LWFTP_SendFile(const char *dirPath, const char *fileName)
 		//strcat(request_msg, "");
 		strcat(request_msg, fileName);
 		strcat(request_msg, "\r\n");
-	//	char cEOF = 0xFF;
+		//	char cEOF = 0xFF;
 		PRINTF("Send to socket_ctrl: %s\r\n", request_msg);
 		write(socket_ctrl, request_msg, strlen(request_msg));
 		// Write data to file in server
@@ -314,8 +312,7 @@ lwftp_result_t Network_LWFTP_SendFile(const char *dirPath, const char *fileName)
 					PRINTF("Write to socket data %d bytes\r\n", br);
 					len = write(socket_dat, data_buf, br);
 				}
-			}
-			while (br == btr); // while not reached the EOF
+			} while (br == btr); // while not reached the EOF
 		} else {
 			PRINTF("LWFTP open file failed\r\n");
 			return LWFTP_RESULT_ERR_LOCAL;
@@ -330,11 +327,11 @@ lwftp_result_t Network_LWFTP_SendFile(const char *dirPath, const char *fileName)
 			max_receive_byte -= resp_len;
 			resp_len = recv(socket_ctrl, reply_msg, max_receive_byte, 0);
 			if (resp_len > 0)
-				PRINTF("reply_msg (len = %d):  %s\r\n",resp_len, reply_msg);
-			if (reply_msg > 0 ) {
+				PRINTF("reply_msg (len = %d):  %s\r\n", resp_len, reply_msg);
+			if (reply_msg > 0) {
 				response = strtoul(reply_msg, NULL, 10);
 				if (response > 0) {
-					if (response==150) {
+					if (response == 150) {
 						ret = LWFTP_RESULT_OK;
 						PRINTF(("Send file to FTP Successfully\r\n"));
 					}
@@ -349,24 +346,24 @@ lwftp_result_t Network_LWFTP_SendFile(const char *dirPath, const char *fileName)
 		Network_LWFTP_Disconnect();
 		return ret;
 	}
+	return LWFTP_RESULT_ERR_UNKNOWN;
 }
-lwftp_result_t Network_LWFTP_Delete(const char *path)
-{
+lwftp_result_t Network_LWFTP_Delete(const char *path) {
 	if (!Network_LWIP_Is_Up()) {
-		PRINTF("Network_LWFTP_Delete Failed because ethernet down or dhcp is not bound \r\n");
+		PRINTF(
+				"Network_LWFTP_Delete Failed because ethernet down or dhcp is not bound \r\n");
 		return LWFTP_RESULT_ERR_CONNECT;
 	}
 	PRINTF("==========Network_LWFTP_Delete: %s\r\n=========", path);
 	lwftp_result_t result = LWFTP_RESULT_ERR_FILENAME;
 	int resp_len = 0, response;
 	int max_receive_byte = lwftp_bufsize;
-	int iTries = 0;
+	//int iTries = 0;
 	//lwftp_result_t ret;
 	// Check for connection and reconnect in case
 	lwftp_reconnect();
 
-	if (lwftp_connected == true)
-	{
+	if (lwftp_connected == true) {
 		// Store a file read from sdcard
 		memset(request_msg, 0x00, sizeof(request_msg));
 		strcpy(request_msg, "DELE ");
@@ -379,11 +376,11 @@ lwftp_result_t Network_LWFTP_Delete(const char *path)
 			max_receive_byte -= resp_len;
 			resp_len = recv(socket_ctrl, reply_msg, max_receive_byte, 0);
 			if (resp_len > 0)
-				PRINTF("reply_msg (len = %d):  %s\r\n",resp_len, reply_msg);
-			if (reply_msg > 0 ) {
+				PRINTF("reply_msg (len = %d):  %s\r\n", resp_len, reply_msg);
+			if (reply_msg > 0) {
 				response = strtoul(reply_msg, NULL, 10);
 				if (response > 0) {
-					if (response==250) {
+					if (response == 250) {
 						result = LWFTP_RESULT_OK;
 					}
 				}
@@ -393,23 +390,17 @@ lwftp_result_t Network_LWFTP_Delete(const char *path)
 	}
 	return result;
 }
-lwftp_result_t Network_LWFTP_Disconnect()
-{
+lwftp_result_t Network_LWFTP_Disconnect() {
 	close(socket_ctrl);
 	socket_ctrl = NULL;
 	lwftp_connected = false;
 	return LWFTP_RESULT_OK;
 }
 
-
-
-
-char *Netwrok_LWIP_Get_ServerIP()
-{
+char *Netwrok_LWIP_Get_ServerIP() {
 	return lwftp_ip;
 }
-lwftp_state_t Network_LWIP_Get_State()
-{
+lwftp_state_t Network_LWIP_Get_State() {
 	return lwftp_state;
 }
 
@@ -417,20 +408,21 @@ lwftp_state_t Network_LWIP_Get_State()
  * Create directory in the server
  * @param dirpath directory path
  */
-lwftp_result_t Network_LWFTP_MKD(const char* dirpath)
-{
-	PRINTF("===================Network_LWFTP_MKD: %s==================\r\n", dirpath);
+//char full_path[256];
+lwftp_result_t Network_LWFTP_MKD(const char* dirpath) {
+	PRINTF("===================Network_LWFTP_MKD: %s==================\r\n",
+			dirpath);
 	if (!Network_LWIP_Is_Up()) {
 		PRINTF("Network_LWFTP_MKD Failed because ethernet down \r\n");
 		return LWFTP_RESULT_ERR_CONNECT;
 	}
 	lwftp_result_t result = LWFTP_RESULT_ERR_FILENAME;
-	char full_path[256];
+
 	int resp_len = 0, response;
 	int max_receive_byte = lwftp_bufsize;
 	char** tokens;
 	bool isMKDRecursiveOK = false;
-	bool isNotOK = false;  // in case something wrong in between, to free all tokens buffer alloc dinamically
+	bool isNotOK = false; // in case something wrong in between, to free all tokens buffer alloc dinamically
 	int i;
 	// Check for connection and reconnect in case
 	lwftp_reconnect();
@@ -447,11 +439,11 @@ lwftp_result_t Network_LWFTP_MKD(const char* dirpath)
 			max_receive_byte -= resp_len;
 			resp_len = recv(socket_ctrl, reply_msg, max_receive_byte, 0);
 			if (resp_len > 0)
-				PRINTF("reply_msg (len = %d):  %s\r\n",resp_len, reply_msg);
-			if (reply_msg > 0 ) {
+				PRINTF("reply_msg (len = %d):  %s\r\n", resp_len, reply_msg);
+			if (reply_msg > 0) {
 				response = strtoul(reply_msg, NULL, 10);
 				if (response > 0) {
-					if (response==257) {
+					if (response == 257) {
 						result = LWFTP_RESULT_OK;
 					}
 				}
@@ -466,16 +458,13 @@ lwftp_result_t Network_LWFTP_MKD(const char* dirpath)
 	}
 	if (dirpath[0] == '/') {
 		Network_LWFTP_CWD("/");
-		tokens= str_split(&dirpath[1], '/');
+		tokens = str_split(&dirpath[1], '/');
 	} else {
-		tokens= str_split(dirpath, '/');
+		tokens = str_split(dirpath, '/');
 	}
-	if (lwftp_connected == true)
-	{
-		if (tokens)
-		{
-			for (i = 0; *(tokens + i); i++)
-			{
+	if (lwftp_connected == true) {
+		if (tokens) {
+			for (i = 0; *(tokens + i); i++) {
 				if (isNotOK == true) {
 
 					free(*(tokens + i));
@@ -498,13 +487,15 @@ lwftp_result_t Network_LWFTP_MKD(const char* dirpath)
 				result = LWFTP_RESULT_ERR_FILENAME;
 				do {
 					max_receive_byte -= resp_len;
-					resp_len = recv(socket_ctrl, reply_msg, max_receive_byte, 0);
+					resp_len = recv(socket_ctrl, reply_msg, max_receive_byte,
+							0);
 					if (resp_len > 0)
-						PRINTF("reply_msg (len = %d):  %s\r\n",resp_len, reply_msg);
-					if (reply_msg > 0 ) {
+						PRINTF("reply_msg (len = %d):  %s\r\n", resp_len,
+								reply_msg);
+					if (reply_msg > 0) {
 						response = strtoul(reply_msg, NULL, 10);
 						if (response > 0) {
-							if (response==257) {
+							if (response == 257) {
 								result = LWFTP_RESULT_OK;
 							}
 						}
@@ -526,16 +517,15 @@ lwftp_result_t Network_LWFTP_MKD(const char* dirpath)
 	return result;
 }
 
-
 /**
  * Change current directory in ftp server to dirpath
  * @param dirpath
  * @return result
  */
-lwftp_result_t Network_LWFTP_CWD(const char* dirpath)
-{
+lwftp_result_t Network_LWFTP_CWD(const char* dirpath) {
 	if (!Network_LWIP_Is_Up()) {
-		PRINTF("Network_LWFTP_Delete Failed because ethernet down or dhcp is not bound \r\n");
+		PRINTF(
+				"Network_LWFTP_Delete Failed because ethernet down or dhcp is not bound \r\n");
 		return LWFTP_RESULT_ERR_CONNECT;
 	}
 	PRINTF("==========Network_LWFTP_CWD: %s\r\n=========", dirpath);
@@ -547,8 +537,7 @@ lwftp_result_t Network_LWFTP_CWD(const char* dirpath)
 	// Check for connection and reconnect in case
 	lwftp_reconnect();
 
-	if (lwftp_connected == true)
-	{
+	if (lwftp_connected == true) {
 		// Store a file read from sdcard
 		memset(request_msg, 0x00, sizeof(request_msg));
 		strcpy(request_msg, "CWD ");
@@ -562,11 +551,11 @@ lwftp_result_t Network_LWFTP_CWD(const char* dirpath)
 			max_receive_byte -= resp_len;
 			resp_len = recv(socket_ctrl, reply_msg, max_receive_byte, 0);
 			if (resp_len > 0)
-				PRINTF("reply_msg (len = %d):  %s\r\n",resp_len, reply_msg);
-			if (reply_msg > 0 ) {
+				PRINTF("reply_msg (len = %d):  %s\r\n", resp_len, reply_msg);
+			if (reply_msg > 0) {
 				response = strtoul(reply_msg, NULL, 10);
 				if (response > 0) {
-					if (response==250) {
+					if (response == 250) {
 						result = LWFTP_RESULT_OK;
 					} else if (response == 550) {
 						//result = LWFTP_RESULT_ERR_FILENAME;
