@@ -19,6 +19,17 @@ static char tmpPath[128];
 #include "fsl_sdmmc_card.h"
 #include "fsl_debug_console.h"
 #include "ff.h"
+#include "modem.h"
+#include "modem_ftp_client.h"
+#include "modem_debug.h"
+
+static uint8_t rxChar;
+static uart_state_t uartState;
+void uart_rx_callback(uint32_t instance, void * uartState)
+{
+	uart_state_t *state = (uart_state_t*)uartState;
+	modem_rx_cmplt_callback(state->rxBuff, 1 );
+}
 
 SNetStt g_Network_Status;
 
@@ -86,6 +97,38 @@ int Net_ModuleInitHw() {
 	g_Network_Status.NetIF = NET_IF_ETHERNET;
 	// TODO: There should be a class to manage switch connection between
 	// ETHERNET & SIMCOMMM
+
+
+
+	// Initialize variable uartState of type uart_state_t
+
+
+	// Fill in uart config data
+	uart_user_config_t uartConfig = {
+		.bitCountPerChar = kUart8BitsPerChar,
+		.parityMode      = kUartParityDisabled,
+		.stopBitCount    = kUartOneStopBit,
+		.baudRate        = BOARD_MODEM_UART_BAUD
+	};
+
+	// Initialize the uart module with base address and config structure
+	UART_DRV_Init(BOARD_MODEM_UART_INSTANCE, &uartState, &uartConfig);
+
+	//Initialize the callback function
+	UART_DRV_InstallRxCallback(BOARD_MODEM_UART_INSTANCE,
+								  uart_rx_callback,
+								  &rxChar,
+								  &uartState,
+								  true);
+
+	modem_init();
+//
+////#define SERVER_IP 	"27.118.20.209"
+////#define SERVER_PORT 	21
+////#define USER_NAME "ftpuser1"
+////#define PASSWORD "zxcvbnm@12"
+//	modem_ftp_init("27.118.20.209", 21, "ftpuser1", "zxcvbnm@12");
+//	modem_ftp_connect();
 	return 1;
 }
 /**
@@ -109,9 +152,15 @@ bool Net_Is_Up()
 {
 	bool ret1 = Network_LWIP_Is_Up();
 	// TODO: ret2 = SIMCOMM is up
+	bool ret2 = true;
 	if (ret1)
 		return true;
-	else return false;
+	else
+	{
+		if (!ret2)	return false;
+	}
+
+	return true;
 }
 /**
  * Set the client callback for each client connected to this server
@@ -156,10 +205,31 @@ SNetStt Net_ModuleGetStatus() {
  * @return NetStatus
  */
 NetStatus Net_FTPClientStart(const char *ip, int port, const char* usrname, const char* passwd) {
+
+#if 0
 	lwtcp_result_t ret1 = Network_LWFTP_Start(ip, port, usrname, passwd);
 	if (ret1 != LWTCP_RESULT_OK)
+	{
+
 		return NET_ERR_LWIP_FTPCLIENT;
+	}
+
 	return NET_ERR_NONE;
+#else
+	if(Network_MDMFTP_Start(ip, port, usrname, passwd) != MDMFTP_RESULT_OK)
+	{
+		MODEM_DEBUG("[manhbt] MDMFTP Client start FAILED!");
+		g_Network_Status.NetIF = NET_IF_UNKNOWN;
+		g_Network_Status.NetConStat = NET_CON_ERR_UNKNOWN;
+	}
+	else
+	{
+		MODEM_DEBUG("[manhbt] MDMFTP Client start OK!");
+		g_Network_Status.NetIF = NET_IF_UNKNOWN;
+		g_Network_Status.NetConStat = NET_CON_DISCONNECTED;
+	}
+	return NET_ERR_LWIP_FTPCLIENT;
+#endif
 }
 /**
  * @brief If connected then send file.
@@ -230,6 +300,14 @@ NetStatus Net_FTPClientSendFile(const char *dirPath, const char *fileName) {
 				ret1 = Network_LWFTP_SendFile(tmpPath, fileName); // dirpath should be
 				if (ret1 == LWFTP_RESULT_OK) {
 					ret = NET_ERR_NONE;
+				}
+				/**
+				 * manhbt send file via UC15
+				 */
+				else
+				{
+					ret1 = Network_MDMFTP_SendFile(tmpPath, fileName);
+					LREP("Send File %s via Ethernet failed, try with 3G modem, ret_code = %d\r\n", fileName, ret1);
 				}
 				// change back to previous directory
 				retVal = f_chdir(cwd);

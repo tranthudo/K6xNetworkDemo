@@ -91,6 +91,10 @@
     #define BOARD_DEBUG_UART_BAUD       115200
 #endif
 
+#define BOARD_MODEM_UART_INSTANCE   4
+#define BOARD_MODEM_UART_BAUD 		115200
+
+
 /* This define to use for power manager demo */
 #define BOARD_LOW_POWER_UART_BAUD       9600
 

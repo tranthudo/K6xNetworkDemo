@@ -88,7 +88,6 @@
 									<listOptionValue builtIn="false" value="../platform/hal/inc"/>
 									<listOptionValue builtIn="false" value="../platform/drivers/inc"/>
 									<listOptionValue builtIn="false" value="../platform/system/inc"/>
-									<listOptionValue builtIn="false" value="../platform/composite/inc"/>
 									<listOptionValue builtIn="false" value="../lwip"/>
 									<listOptionValue builtIn="false" value="../lwip/port"/>
 									<listOptionValue builtIn="false" value="../lwip/port/arch"/>
@@ -101,13 +100,14 @@
 									<listOptionValue builtIn="false" value="../lwip/src/include/lwip"/>
 									<listOptionValue builtIn="false" value="../lwip/src/include/netif"/>
 									<listOptionValue builtIn="false" value="../lwip/src/include/posix"/>
-									<listOptionValue builtIn="false" value="../lwip/src/include"/>
-									<listOptionValue builtIn="false" value="../platform/utilities/inc"/>
 									<listOptionValue builtIn="false" value="../rtos/uCOSIII/src/config"/>
 									<listOptionValue builtIn="false" value="../rtos/uCOSIII/src/uCOS-III/Source"/>
 									<listOptionValue builtIn="false" value="../rtos/uCOSIII/src/uC-CPU"/>
 									<listOptionValue builtIn="false" value="../rtos/uCOSIII/src/uC-CPU/ARM-Cortex-M4/GNU"/>
 									<listOptionValue builtIn="false" value="../rtos/uCOSIII/src/uC-LIB"/>
+									<listOptionValue builtIn="false" value="../modem"/>
+									<listOptionValue builtIn="false" value="../common"/>
+									<listOptionValue builtIn="false" value="../modem/ftp_client"/>
 								</option>
 								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.std.933718024" name="Language standard" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.std" useByScannerDiscovery="true" value="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.std.gnu99" valueType="enumerated"/>
 								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.defs.8449530400" name="Defined symbols (-D)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.defs" useByScannerDiscovery="false" valueType="definedSymbols">

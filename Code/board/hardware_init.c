@@ -46,6 +46,7 @@ void hardware_init(void) {
   /* Init board clock */
   BOARD_ClockInit();
   dbg_uart_init();
+  configure_uart_pins(BOARD_MODEM_UART_INSTANCE);
 }
 
 /*!

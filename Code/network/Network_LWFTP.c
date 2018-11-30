@@ -177,9 +177,11 @@ lwftp_result_t Network_LWFTP_Start(const char *ip, int port,
 	lwftp_port = port;
 	lwftp_passwd = passwd;
 	lwftp_user = usrname;
+	// manhbt:
+//	return LWFTP_RESULT_ERR_CONNECT;
 	return LWFTP_RESULT_OK;
 	// TODO: check if have to connect or not
-	//ret = lwftp_connect();
+//	ret = lwftp_connect();
 	if (ret != 0) {
 		return LWFTP_RESULT_ERR_CONNECT;
 	} else {

@@ -45,6 +45,10 @@
 #define HTTPD_PRIORITY          3
 #endif
 
+#include "modem.h"
+#include "modem_ftp_client.h"
+
+
 ///////////////////////////////////////////////////////////////////////////////
 // Definitions
 ///////////////////////////////////////////////////////////////////////////////
@@ -352,13 +356,14 @@ void App_TaskPeriodic(void *param) {
 			App_FS();
 
 		}
-		if (testTCP == false) {
-			// ThinhNT Added to test TCP
-			if (Net_Is_Up()) {
-				testTCP = true;
-				Net_TestTCPServer();
-			}
-		}
+//		if (testTCP == false) {
+//			// ThinhNT Added to test TCP
+//			if (Net_Is_Up()) {
+//				testTCP = true;
+//				Net_TestTCPServer();
+//			}
+//		}
+//		modem_send_at_command("AT\r\n", "OK", 1000, 1);
 		OSA_TimeDelay(1000);
 		LREP(".");
 	}
